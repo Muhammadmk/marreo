@@ -1,0 +1,178 @@
+/* CSS declarations go here */
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: RobotoDraft, sans-serif;
+  color: #333;
+}
+
+
+core-header-panel {
+  float: left;
+  width: 100%;
+  height: 100%;
+}
+
+core-header-panel[mode=cover]::shadow #mainContainer {
+  left: 70px;
+}
+
+core-toolbar.global_theme {
+  background-color: #ffffff;
+  color: #e91e63;
+  fill: #f1f1f1;
+  z-index: 999;
+}
+
+div.journey {
+  background-color: #e91e63;
+  color: #ffffff;
+  fill: #f1f1f1;
+  width: 100%;
+  float: left;
+  padding: 10px 30px;
+}
+
+.align_center {
+  text-align: center;
+}
+
+.wedding_journey {
+  text-align: center;
+  font-size: 28px;
+}
+
+.days {
+  background-color: #ffffff;
+  color: #212121;
+  fill: #f1f1f1;
+  width: 100%;
+  float: left;
+  padding: 10px 30px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+core-scroll-header-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin-top: 64px;
+}
+
+/* background for toolbar when it is at its full size */
+core-scroll-header-panel::shadow #headerBg {
+  background-image: url(wedding-kiss.jpg);
+  opacity: 1;
+}
+
+/* background for toolbar when it is condensed */
+core-scroll-header-panel::shadow #condensedHeaderBg {
+  color: #f1f1f1;
+  fill: #f1f1f1;
+  background-color: transparent;
+  opacity: 1;
+}
+
+core-toolbar {
+  color: #f1f1f1;
+  fill: #f1f1f1;
+  background-color: transparent;
+}
+
+.title {
+  -webkit-transform-origin: 0;
+  transform-origin: 0;
+  font-size: 40px;
+}
+
+.content {
+  padding: 10px 30px;
+}
+
+.tall {
+  height: 300px;
+}
+
+
+body {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  font-size: 120%;
+  line-height: 1.625;
+  font-family: 'Whitney SSm A', 'Whitney SSm B', Helvetica Neue, Helvetica, Arial, sans-serif;
+  -webkit-perspective: 1px;
+  -moz-perspective: 1px;
+  -ms-perspective: 1px;
+  -o-perspective: 1px;
+  perspective: 1px;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d; 
+}
+
+body * {
+  -webkit-perspective: 1px;
+  -moz-perspective: 1px;
+  -ms-perspective: 1px;
+  -o-perspective: 1px;
+  perspective: 1px;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d; 
+}
+
+.page {
+  position: relative;
+  top: 350px;
+  background-color: white; 
+  float: left;
+  width: 100%;
+}
+
+.bg_image {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 100%;
+  height: 320px;
+  background-image: url(wedding-kiss.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  -webkit-transform: translateZ(-0.9px) scale(1.9);
+  -moz-transform: translateZ(-0.9px) scale(1.9);
+  -ms-transform: translateZ(-0.9px) scale(1.9);
+  -o-transform: translateZ(-0.9px) scale(1.9);
+  transform: translateZ(-0.9px) scale(3);
+  z-index: -900;
+  text-align: center; 
+}
+
+.float_left {
+  height: 80px;
+  width: 100%;
+  float: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.float_right {
+  float: right;  
+}
+
+[drawer] {
+        background-color: #ffffff;
+        border-right: 1px solid #ccc;
+      }
+
+      core-drawer-panel[narrow] button {
+        display: inline-block
+      }
