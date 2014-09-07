@@ -1,0 +1,67 @@
+<!-- this polymer is the panel for list items -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+
+<polymer-element name="wedding-list-panel" attributes="title description" on-drag='{{dragStart}}'  on-dragover="{{allowDrop}}"
+on-drop='{{dragStop}}'>
+<template>
+	<style>
+	#list_panel {
+		height: auto;
+		border-bottom: 1px solid #e0e0e0;
+		padding: 10px 30px;
+		position: relative;
+	}
+	#title_row {
+		position: relative;
+	}
+	#title_row span {
+		font-size: 22px;
+	}
+	#description {
+		color: #9e9e9e;
+	}
+
+	</style>
+	<div id="list_panel">
+		<div id="title_row" horizontal justified layout center>
+			<span>{{title}}</span>
+			<paper-checkbox class="green" id="check"></paper-checkbox>
+		</div>
+		<div id="description">{{description}}</div>
+		<paper-ripple fit initialOpacity="0.5" opacityDecayVelocity="0.98"></paper-ripple>
+	</div>
+</template>
+
+<script>
+Polymer('wedding-list-panel', {
+	title: '',
+	description: '',
+	eventDelegates: {
+		tap: 'tap'
+	},
+	tap: function() {
+		this.$.check.toggle();
+	},
+	dragStart: function(ev) {
+		console.log('hello');
+		if (this.dragged) return;
+		draginfo=this;
+		this.dragged=true;
+	},
+	allowDrop: function(ev){
+		ev.preventDefault();
+	},
+	dragStop: function(ev){
+		if (draginfo=="") return;
+		ev.preventDefault();
+		var parent=this.parentNode
+		draginfo.dragged=false;
+		parent.insertBefore(draginfo,this)
+		draginfo="";
+	}
+});
+</script>
+
+</polymer-element>

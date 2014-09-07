@@ -1,0 +1,114 @@
+<head>
+    <title>Expense</title>
+    <!--Polymer import -->
+    <script src="bower_components/platform/platform.js"></script>
+    <link rel="import" href="bower_components/core-header-panel/core-header-panel.html">
+    <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="bower_components/core-icon-button/core-icon-button.html">
+    <link rel="import" href="bower_components/core-range/core-range.html">
+    <link rel="import" href="bower_components/core-collapse/core-collapse.html">
+</head>
+
+<body>
+    <core-header-panel id="budget-CHP">
+        <div class="core-header-budget">
+            <core-toolbar>
+                <core-icon-button icon="menu"></core-icon-button>
+                <span flex>Expense</span>
+                <core-icon-button icon="drawer"></core-icon-button>
+            </core-toolbar>
+        </div>
+        <div class="content-budget">
+            <div id="summary">
+                <div horizontal layout>
+                    <div flex>
+                        <h2 style="padding:10px 0px 0px 10px; color:#CC3366; float:left display:block;">Total Expense</h2>
+                        <h1 style="padding:0px 0px 0px 50px; color:#000000;">$ 1040.30</h1>
+                    </div>
+
+                    <div flex>
+                        <h4 style="padding:10px 20px 0px 0px; color:#000000; float:right; display:block;">Left
+                            <br>
+                            <span style="color:#C8C8C8;">$150.70</span>
+                        </h4>
+
+                    </div>
+                </div>
+                <div id="progress_bar" horizontal center-justified layout>
+                    <core-range id="budget-CR" min="0" max="200" value="50" ratio="{{ratio}}">
+                        <div class="progress" style="width: 50%;">50%</div>
+                        <div class="progress" style="width: 25%; background-color:green; margin-left:-3.5px">25%</div>
+                    </core-range>
+                </div>
+
+                <h4 style="padding:10px 20px 0px 0px; color:#000000; float:right; margin-right:10%">Budget
+                    <br>
+                    <span style="color:#C8C8C8;">$1200.30</span>
+                </h4>
+
+            </div>
+
+            <div id="details">
+                <core-toolbar style="background-color:#FFCCCC">
+                    <span flex>Aug 2014</span>
+                    <span style="margin-right:10px">Monthly</span>
+                </core-toolbar>
+                <div id="details_content">
+                    <div style="height:70px">
+                        <section>
+                            <core-icon-button icon="picture-in-picture" style="float:left; margin:10px;">
+                                <span style="padding:20px">Photography</span>
+                            </core-icon-button>
+                            <h3 style=" float:right; padding-right:15px">$100</h3>
+                            <core-collapse id="collapse1" fixedSize class="box" style="height: 300px;">
+                                Details
+                            </core-collapse>
+
+                        </section>
+                    </div>
+
+                    <div style="height:70px">
+                        <section>
+                            <core-icon-button icon="language" style="float:left; margin:10px;">
+                                <span style="padding:20px">Venue</span>
+                            </core-icon-button>
+                            <h3 style=" float:right; padding-right:15px">$200</h3>
+                            <core-collapse id="collapse2" fixedSize class="box" style="height: 300px;">
+                                Details
+                            </core-collapse>
+
+                        </section>
+                    </div>
+
+                    <div style="height:70px">
+                        <section>
+                            <core-icon-button icon="star" style="float:left; margin:10px;">
+                                <span style="padding:20px">Wedding favours</span>
+                            </core-icon-button>
+                            <h3 style=" float:right; padding-right:15px">$100</h3>
+                            <core-collapse id="collapse3" fixedSize class="box" style="height: 300px;">
+                                Details
+                            </core-collapse>
+
+                        </section>
+                    </div>
+
+                    <div style="height:70px">
+                        <section>
+                            <core-icon-button icon="extension" style="float:left; margin:10px;">
+                                <span style="padding:20px">Miscellaneous</span>
+                            </core-icon-button>
+                            <h3 style=" float:right; padding-right:15px">$100</h3>
+                            <core-collapse id="collapse4" fixedSize class="box" style="height: 300px;">
+                                Details
+                            </core-collapse>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </core-header-panel>
+
+</body>
