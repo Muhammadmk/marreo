@@ -1,0 +1,15 @@
+/* CSS declarations go here */
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: RobotoDraft, sans-serif;
+  color: #333;
+}
+
+.pageContainer {
+  width: auto;
+  height: auto;
+}

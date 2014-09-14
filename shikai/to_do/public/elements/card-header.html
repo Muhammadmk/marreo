@@ -1,0 +1,31 @@
+<!-- this polymer is the panel for list items -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<polymer-element name="card-header" attributes="bgColor">
+<template>
+	<style>
+	#header_container {
+		height: 50px;
+		border-bottom: 1px solid #e0e0e0;
+		background-color: {{bgColor}};
+	}
+	#header_title {
+		height: 100%;
+		font-size: 22px;
+	}
+
+	</style>
+	<div id="header_container">
+		<div id="header_title" horizontal center-justified layout center>
+			<div><content></content></div>
+		</div>
+	</div>
+</template>
+
+<script>
+Polymer('card-header', {
+	bgColor:''
+});
+</script>
+
+</polymer-element>
