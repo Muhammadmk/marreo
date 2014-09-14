@@ -1,0 +1,108 @@
+<head>
+  <title>todo</title>
+  <script src="bower_components/platform/platform.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,300italic' rel='stylesheet' type='text/css'>
+  
+  <link rel="import" href="bower_components/core-scaffold/core-scaffold.html">
+  <link rel="import" href="bower_components/core-header-panel/core-header-panel.html">
+  <link rel="import" href="bower_components/core-menu/core-menu.html">
+  <link rel="import" href="bower_components/core-item/core-item.html">
+
+  <style>
+  body {
+  	
+  	height: 500px;
+  	width: 100%;
+  }
+  	core-scaffold::shadow core-toolbar {
+  		background: #FFFFFF;
+  		color: #e74c3c;
+	}
+
+	core-scaffold::shadow core-header-panel {
+	  background: #FFF;
+	  color: black;
+	  border: 3px solid red;
+	}
+
+	.todo_left {
+		display: inline-block;
+		width: 50%;
+		border: 1px solid red;
+	}
+	.todo_right {
+		display: inline-block;
+		width: 50%;
+		border: 1px solid blue;
+	}
+	</style>
+</head>
+
+<body>
+	<core-scaffold responsewidth="800px">
+  
+    <core-header-panel navigation flex mode="seamed">
+      <core-toolbar style="background-color: #FFFFFF; color: #e74c3c;">Menu</core-toolbar>
+      <core-menu>
+      	<core-item icon="home" label="Main"></core-item>
+      	<core-item icon="assignment" label="ToDo"></core-item>
+      	<core-item icon="credit-card" label="Budget"></core-item>
+      	<core-item icon="language" label="Discover"></core-item>
+        <core-item icon="settings" label="Settings"></core-item>
+      </core-menu>
+    </core-header-panel>
+    
+    <div tool flex>
+		<span class="align_center" flex>Mr & Mrs</span>
+		<core-icon-button icon="drawer"></core-icon-button>
+    </div>
+    
+    <div class="todo_left">{{> hello}}</div>
+    <div class="todo_right">{{> todoList}}</div>
+
+  
+  </core-scaffold>
+</body>
+
+<template name="hello">
+  <button>Click Me</button>
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="todoList">
+	<button>Full List</button>
+	<div>
+		{{#each dailyList}}
+		{{date}}
+		{{>todoItems}}
+		{{/each}}
+	</div>
+</template>
+
+<template name="todoItems">
+	{{#each dailyTodo}}
+	<div>
+		<!-- PUT PANEL HERE -->
+	</div>
+	{{/each}}
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
