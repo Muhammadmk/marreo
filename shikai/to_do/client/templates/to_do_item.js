@@ -2,7 +2,25 @@ Template.toDoItem.events({
 	'click .completedCheck': function(e) {
 		e.preventDefault();
 		console.log(this);
-		Meteor.call('complete_fn', this._id, this.completed);
+		var c_boolean = !completed;
+		ToDoClient.update(
+			{_id : this._id}, 
+			{"$set" : {completed: c_boolean}
+		});
+	},
+
+	'click .deleteItem': function(e) {
+		e.preventDefault();
+		console.log(this);
+		ToDoClient.remove(
+			{_id : this._id}
+		);
+	},
+
+	'click .editItem': function(e) {
+		e.preventDefault();
+		console.log(this);
+		editItem: "MA MA";
 	}
 });
 

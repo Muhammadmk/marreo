@@ -1,10 +1,16 @@
 <template name="toDoItem">
 	<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+	<link rel="import" href="bower_components/core-icons/core-icons.html">
+	<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 
 	<div class="item_container">
 		<div class="item_name" horizontal justified layout center>
 			<span class="item_title">{{title}}</span>
-			<paper-checkbox class="green completedCheck" checked="{{completed}}"></paper-checkbox>
+			<div>
+				<paper-icon-button icon="create" class="editItem"></paper-icon-button>
+				<paper-icon-button icon="close" class="deleteItem"></paper-icon-button>
+				<paper-checkbox class="green completedCheck" checked="{{completed}}"></paper-checkbox>
+			</div>
 		</div>
 	</div>
 </template>

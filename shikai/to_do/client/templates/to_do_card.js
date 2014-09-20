@@ -1,4 +1,10 @@
-Template.toDoAdd.events({
+Template.toDoCard.helpers({
+	toDoItems: function() {
+		return ToDoClient.find();
+	}
+});
+
+Template.toDoCard.events({
 	'click #submit': function(e) {
 		e.preventDefault();
 

@@ -2,11 +2,17 @@
 ToDoClient = new Meteor.Collection("toDoServer");
 
 Meteor.methods({
-	complete_fn : function(itemId, completed) {
-		var c_boolean = !completed;
-		ToDoClient.update(
-			{_id : itemId}, 
-			{"$set" : {completed: c_boolean}
-		});
-	}
+	// complete_fn : function(itemId, completed) {
+	// 	var c_boolean = !completed;
+	// 	ToDoClient.update(
+	// 		{_id : itemId}, 
+	// 		{"$set" : {completed: c_boolean}
+	// 	});
+	// },
+
+	// delete_fn : function(itemId) {
+	// 	ToDoClient.remove(
+	// 		{_id : itemId}
+	// 	);
+	// }
 });

@@ -2,19 +2,32 @@
 	<link rel="import" href="elements/card-header.html">
 	
 	<!-- <div class="main"> -->
-		<div class="cardContainer">
-			<card-header bgColor="#e0e0e0">To Do List</card-header>
-			<div class="content">
-				{{> toDoList}}
-			</div>
+	<div class="cardContainer">
+		<card-header bgColor="#e0e0e0">To Do List</card-header>
+		<div class="content">
+			<link rel="import" href="elements/to-do-item.html">
+			{{#each toDoItems}}
+			{{> toDoItem}}
+			{{/each}}
 		</div>
+	</div>
 
-		<div class="cardContainer">
-			<card-header bgColor="#ffffff">I want to ...</card-header>
-			<div class="content">
-				<!-- {{> toDoList}} -->
-				{{> toDoAdd}}
+	<div class="cardContainer">
+		<card-header bgColor="#ffffff">I want to ...</card-header>
+		<div class="content">
+			<!-- {{> toDoList}} -->
+			<link rel="import" href="bower_components/paper-input/paper-input.html">
+			<link rel="import" href="bower_components/paper-button/paper-button.html">
+			<div class="addContainer" horizontal layout center>
+				<div class="inputContainer">
+					<form>
+						<paper-input name="title" label="Do something ..." value="{{editItem}}"></paper-input>
+						<paper-input name="description" label="Details ..."></paper-input><br/>
+						<paper-button label="add" id="submit"></paper-button>
+					</form>
+				</div>
 			</div>
 		</div>
+	</div>
 	<!-- </div> -->
 </template>
