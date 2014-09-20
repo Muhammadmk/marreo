@@ -1,7 +1,5 @@
 <template name="toDoList">
 	<link rel="import" href="elements/to-do-item.html">
-	<!-- this div is to push the content down below the header -->
-	<div style="height: 50px;"></div>
 	{{#each toDoItems}}
 	{{> toDoItem}}
 	{{/each}}
