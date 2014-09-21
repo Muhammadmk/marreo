@@ -6,6 +6,7 @@
 		<card-header bgColor="#e0e0e0">To Do List</card-header>
 		<div class="content">
 			<link rel="import" href="elements/to-do-item.html">
+			<!-- loop out the items -->
 			{{#each toDoItems}}
 			{{> toDoItem}}
 			{{/each}}
@@ -15,15 +16,17 @@
 	<div class="cardContainer">
 		<card-header bgColor="#ffffff">I want to ...</card-header>
 		<div class="content">
-			<!-- {{> toDoList}} -->
+			<!-- add card -->
 			<link rel="import" href="bower_components/paper-input/paper-input.html">
 			<link rel="import" href="bower_components/paper-button/paper-button.html">
 			<div class="addContainer" horizontal layout center>
 				<div class="inputContainer">
 					<form>
-						<paper-input name="title" label="Do something ..." value="{{editItem}}"></paper-input>
+						<paper-input name="title" label="Do something ..."></paper-input>
 						<paper-input name="description" label="Details ..."></paper-input><br/>
-						<paper-button label="add" id="submit"></paper-button>
+						<paper-button label="add" class="addItemSubmit"></paper-button>
+						<paper-button label="edit" class="editItemSubmit"></paper-button>
+						<paper-button label="cancel" class="cancel"></paper-button>
 					</form>
 				</div>
 			</div>

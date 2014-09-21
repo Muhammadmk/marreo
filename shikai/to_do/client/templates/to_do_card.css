@@ -2,7 +2,7 @@
 	height: 500px;
 	width: 500px;
 	max-width: 1000px;
-	border: 1px solid red;
+	border: 1px solid #e0e0e0;
 	overflow: auto;
 	position:relative;
 }
@@ -45,4 +45,8 @@
 	height: auto;
 	padding: 10px 30px;
 	/*border: 2px solid green;*/
+}
+
+.hide {
+	display: none;
 }
