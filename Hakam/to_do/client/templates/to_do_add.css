@@ -1,0 +1,13 @@
+.addContainer {
+	height: 100%;
+	width: auto;
+	/*border: 2px solid green;*/
+	padding: 0px 30px;
+	z-index: 3;
+}
+
+.inputContainer {
+	height: auto;
+	padding: 10px 30px;
+	/*border: 2px solid green;*/
+}

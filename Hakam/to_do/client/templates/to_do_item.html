@@ -1,0 +1,11 @@
+<template name="toDoItem">
+	<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+
+	<div class="item_container">
+		<div class="item_name" horizontal justified layout center>
+			<span class="item_title">{{title}}</span>
+			<span class="item_title">{{date}}</span>
+			<paper-checkbox class="green completedCheck" checked="{{completed}}"></paper-checkbox>
+		</div>
+	</div>
+</template>

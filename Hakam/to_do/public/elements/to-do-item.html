@@ -1,0 +1,62 @@
+<!-- this polymer is the panel for list items -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+
+<polymer-element name="to-do-item" attributes="title completed">
+<template>
+	<style>
+	#item_container {
+		height: 50px;
+		border-bottom: 1px solid #e0e0e0;
+		padding: 0px 30px;
+	}
+	#item_name {
+		height: 100%;
+	}
+	#item_name span {
+		font-size: 20px;
+	}
+	.not_completed {
+		color: #333;
+	}
+	.completed {
+		color: #e0e0e0;
+	}
+	</style>
+
+	<div id="item_container">
+		<div id="item_name" horizontal justified layout center>
+			<span id="item_title">{{title}}</span>
+			<paper-checkbox class="green" id="check" checked={{completed}}></paper-checkbox>
+		</div>
+	</div>
+</template>
+
+<script>
+Polymer('to-do-item', {
+	title: '',
+	completed: '',
+	eventDelegates: {
+		tap: 'tap'
+	},
+	tap: function() {
+		if (this.$.check.checked) {
+			this.$.item_title.setAttribute('class', 'completed');
+		} else {
+			this.title = 'false';
+			this.$.item_title.setAttribute('class', 'not_completed');
+		}
+
+	},
+	ready: function() {
+		if (this.$.check.checked) {
+			this.$.item_title.setAttribute('class', 'completed');
+		} else {
+			this.$.item_title.setAttribute('class', 'not_completed');
+		}
+		
+	}
+});
+</script>
+
+</polymer-element>

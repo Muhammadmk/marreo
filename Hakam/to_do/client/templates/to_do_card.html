@@ -1,0 +1,20 @@
+<template name="toDoCard">
+	<link rel="import" href="elements/card-header.html">
+	
+	<!-- <div class="main"> -->
+		<div class="cardContainer">
+			<card-header bgColor="#e0e0e0">To Do List</card-header>
+			<div class="content">
+				{{> toDoList}}
+			</div>
+		</div>
+
+		<div class="cardContainer">
+			<card-header bgColor="#ffffff">I want to ...</card-header>
+			<div class="content">
+				<!-- {{> toDoList}} -->
+				{{> toDoAdd}}
+			</div>
+		</div>
+	<!-- </div> -->
+</template>

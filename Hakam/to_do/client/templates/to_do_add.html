@@ -1,0 +1,14 @@
+<template name="toDoAdd">
+	<link rel="import" href="bower_components/paper-input/paper-input.html">
+	<link rel="import" href="bower_components/paper-button/paper-button.html">
+	<div class="addContainer" horizontal layout center>
+		<div class="inputContainer">
+			<form>
+				<paper-input name="title" label="Do something ..."></paper-input>
+				<paper-input name="date" type="date"></paper-input>
+				<paper-input name="description" label="Details ..."></paper-input><br/>
+				<paper-button label="add" id="submit"></paper-button>
+			</form>
+		</div>
+	</div>
+</template>

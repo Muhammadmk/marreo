@@ -1,0 +1,14 @@
+{
+  "name": "marreo",
+  "version": "0.0.1",
+  "homepage": "https://github.com/muhammadmk/marreo",
+  "description": "to do card",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
