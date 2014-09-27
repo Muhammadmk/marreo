@@ -7,9 +7,25 @@
 		<div class="content">
 			<link rel="import" href="elements/to-do-item.html">
 			<!-- loop out the items -->
-			{{#each toDoItems}}
-			{{> toDoItem}}
-			{{/each}}
+			<div class="toDoContainer">
+				{{#each toDoItems}}
+				{{> toDoItem}}
+				{{/each}}
+			</div>
+			
+			<div id="stickyHeader1">header 1</div>
+			<div id="stickyHeader2">header 2</div>
+			<div class="toDoContainer">
+				{{#each toDoItems}}
+				{{> toDoItem}}
+				{{/each}}
+			</div>
+
+			<div class="toDoContainer">
+				{{#each toDoItems}}
+				{{> toDoItem}}
+				{{/each}}
+			</div>
 		</div>
 	</div>
 

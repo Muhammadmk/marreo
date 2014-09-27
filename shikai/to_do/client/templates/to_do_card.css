@@ -50,3 +50,17 @@
 .hide {
 	display: none;
 }
+
+#stickyHeader1,
+#stickyHeader2 {
+	height: 50px;
+	width: 100%;
+	background-color: #757575;
+	z-index: 3;
+	color: #ffffff;
+}
+
+.stick {
+	position: absolute;
+	top: 0;
+}
