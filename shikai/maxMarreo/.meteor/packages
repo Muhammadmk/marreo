@@ -1,0 +1,30 @@
+# Meteor packages used by this project, one per line.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+insecure
+underscore
+jquery
+http
+accounts-facebook
+service-configuration
+d3
+iron:router
+mizzao:bootstrap-3
+mizzao:bootboxjs
+matteodem:keybindings
+meteorhacks:npm
+mrt:uri-js
+jeeeyul:underscore-keypath
+
+
+npm-container
+splendido:accounts-templates-bootstrap
+accounts-twitter
+accounts-password
+meteor-platform
+sashko:katex
+reactive-var
+mrt:x3dom
+

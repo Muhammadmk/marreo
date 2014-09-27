@@ -1,0 +1,10 @@
+#! /bin/sh
+
+GIT_WORK_TREE=/home/root/app/graphpaper
+export GIT_WORK_TREE
+
+git checkout -f
+cd $GIT_WORK_TREE
+rm -rf .demeteorized
+demeteorizer
+./build.sh

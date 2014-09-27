@@ -1,0 +1,404 @@
+<link rel="import" href="../core-scaffold/core-scaffold.html">
+<link rel="import" href="../core-header-panel/core-header-panel.html">
+<link rel="import" href="../core-menu/core-menu.html">
+<link rel="import" href="../core-item/core-item.html">
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../core-animated-pages/transitions/hero-transition.html">
+<link rel="import" href="../core-animated-pages/transitions/cross-fade.html">
+<link rel="import" href="../core-animated-pages/transitions/slide-down.html">
+<link rel="import" href="../core-animated-pages/transitions/slide-up.html">
+<link rel="import" href="../core-animated-pages/transitions/tile-cascade.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+<link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../code-mirror/code-mirror.html">
+<link rel="import" href="../paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../core-menu/core-submenu.html">
+
+<polymer-element name="mx-admin" attributes="canvas users statistics">
+
+  <template>
+    <style>    
+      :host {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        top: 0px;
+        left: 0px;
+      }
+      #core_scaffold {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+      }
+      #core_header_panel {
+        background-color: rgb(235, 235, 235);
+      }
+      #core_toolbar {
+        color: rgb(255, 255, 255);
+        background-color: rgb(33, 33, 33);
+      }
+      #core_menu {
+        font-size: 16px;
+      }
+      #core_animated_pages {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: rgb(238, 238, 238);
+      }
+      #core_header_panel1 {
+        width: 100%;
+        height: 100%;
+      }
+      #core_toolbar1 {
+        color: rgb(255, 255, 255);
+        background-color: rgb(33, 33, 33);
+      }
+      #section3 {
+        height: 800px;
+        padding: 8px;
+        background: linear-gradient(rgb(214, 227, 231), rgb(173, 216, 230));
+      }
+      #div1 {
+        height: 100%;
+      }
+      #core_card {
+        width: 200px;
+        height: 248px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card1 {
+        width: 200px;
+        height: 200px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card2 {
+        width: 450px;
+        height: 250px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card3 {
+        width: 250px;
+        height: 250px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #div {
+        height: 48px;
+        background-color: rgb(235, 235, 235);
+      }
+      #div2 {
+        height: 100%;
+      }
+      #core_header_panel2 {
+        width: 100%;
+        height: 100%;
+      }
+      #core_toolbar2 {
+        color: rgb(255, 255, 255);
+        background-color: rgb(33, 33, 33);
+      }
+      #section4 {
+        height: 1000px;
+        background: linear-gradient(rgb(214, 227, 231), rgb(173, 216, 230));
+      }
+      #core_card4 {
+        width: 100%;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #div5 {
+        padding: 16px;
+      }
+      #core_card5 {
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+      }
+      #code_mirror {
+        height: 300px;
+        width: 100%;
+      }
+      #core_header_panel3 {
+        width: 100%;
+        height: 100%;
+      }
+      #core_toolbar3 {
+        color: rgb(255, 255, 255);
+        background-color: rgb(0, 0, 0);
+      }
+      #section5 {
+        height: 1000px;
+        background: linear-gradient(rgb(214, 227, 231), rgb(173, 216, 230));
+      }
+      #core_card6 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card7 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card8 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card9 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card10 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card11 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card12 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card13 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card14 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card15 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card16 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_card17 {
+        width: 300px;
+        height: 300px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        background-color: rgb(255, 255, 255);
+      }
+      #core_animated_pages1 {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: rgb(238, 238, 238);
+      }
+    </style>
+    <core-scaffold id="core_scaffold">
+      <core-animated-pages selected="{{ $.core_menu.selectedIndex }}" selectedindex="2" notap id="core_animated_pages">
+        <section id="section" layout horizontal>
+          <div id="div1" two flex>
+            <core-header-panel mode="waterfall" id="core_header_panel1">
+              <core-toolbar id="core_toolbar1">
+                <core-icon-button icon="menu" id="core_icon_button"></core-icon-button>
+                <div id="div3" one flex>Component Browser</div>
+                <core-icon-button icon="search" id="core_icon_button1" theme="core-light-theme"></core-icon-button>
+              </core-toolbar>
+              <section id="section3" horizontal layout around-justified wrap>
+                <core-card id="core_card" layout vertical end-justified>
+                  <div id="div" horizontal layout center start-justified>Menu</div>
+                </core-card>
+                <core-card id="core_card1" layout vertical></core-card>
+                <core-card id="core_card2" layout vertical></core-card>
+                <core-card id="core_card3" layout vertical></core-card>
+              </section>
+            </core-header-panel>
+          </div>
+          <div id="div2" three flex>
+            <core-header-panel mode="waterfall" id="core_header_panel2">
+              <core-toolbar id="core_toolbar2">
+                <div id="div4" one flex>Header</div>
+                <paper-icon-button icon="more-vert" id="paper_icon_button"></paper-icon-button>
+              </core-toolbar>
+              <section id="section4">
+                <core-card id="core_card4" layout vertical end-justified>
+                  <div id="div5">Component Title</div>
+                </core-card>
+                <core-card id="core_card5" layout vertical>
+                  <code-mirror value="<polymer-element name='my-element'>
+  <template></template>
+  <script>
+    Polymer('my-element', {});
+  </script>
+</polymer-element>" id="code_mirror">
+                    <polymer-element id="polymer_element" name="my-element">
+                      <template id="template"></template>
+                      <script id="script">
+    Polymer('my-element', {});
+  </script>
+                    </polymer-element>
+                  </code-mirror>
+                </core-card>
+              </section>
+            </core-header-panel>
+          </div>
+        </section>
+        <section id="section1">
+      </section>
+        <section id="section2" active>
+          <core-header-panel mode="standard" id="core_header_panel3">
+            <core-toolbar id="core_toolbar3">
+              <div id="div7">Filter</div>
+              <paper-radio-group selected="Small" valueattr="label" selectedindex="0" id="paper_radio_group">
+                <paper-radio-button checked label="Small" id="paper_radio_button"></paper-radio-button>
+                <paper-radio-button label="Medium" id="paper_radio_button1"></paper-radio-button>
+                <paper-radio-button label="Large" id="paper_radio_button2"></paper-radio-button>
+              </paper-radio-group>
+              <paper-toggle-button checked id="paper_toggle_button" touch-action="pan-y"></paper-toggle-button>
+              <core-icon-button icon="menu" id="core_icon_button2"></core-icon-button>
+            </core-toolbar>
+            <section id="section5" horizontal layout around-justified wrap>
+              <core-card id="core_card6" layout vertical active></core-card>
+              <core-card id="core_card7" layout vertical></core-card>
+              <core-card id="core_card8" layout vertical></core-card>
+              <core-card id="core_card9" layout vertical></core-card>
+              <core-card id="core_card10" layout vertical></core-card>
+              <core-card id="core_card11" layout vertical></core-card>
+              <core-card id="core_card12" layout vertical></core-card>
+              <core-card id="core_card13" layout vertical></core-card>
+              <core-card id="core_card14" layout vertical></core-card>
+              <core-card id="core_card15" layout vertical></core-card>
+              <core-card id="core_card16" layout vertical></core-card>
+              <core-card id="core_card17" layout vertical></core-card>
+            </section>
+          </core-header-panel>
+        </section>
+      </core-animated-pages>
+      <core-header-panel mode="standard" id="core_header_panel" navigation flex>
+        <core-toolbar id="core_toolbar" center-justified layout horizontal>Admin Panel</core-toolbar>
+        <core-menu selected="User" valueattr="label" selectedindex="2" id="core_menu" theme="core-light-theme">
+          <core-item label="Template" icon="settings" size="24" id="core_item1" horizontal center layout></core-item>
+          <core-item label="Canvas" icon="settings" size="24" id="core_item2" horizontal center layout></core-item>
+          <core-item label="User" icon="account-circle" size="24" id="core_item" horizontal center layout active></core-item>
+        </core-menu>
+      </core-header-panel>
+      <div id="div6" tool>{{ $.core_menu.selected }}</div>
+    </core-scaffold>
+  </template>
+
+  <script>
+
+    Polymer('mx-admin', {
+      
+    });
+
+  </script>
+
+</polymer-element>

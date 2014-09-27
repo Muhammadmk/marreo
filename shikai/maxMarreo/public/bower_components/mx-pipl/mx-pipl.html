@@ -1,0 +1,72 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer-jsonp/polymer-jsonp.html">
+
+<polymer-element name="mx-pipl" attributes="email username rawName key country result">
+
+    <template>
+        <polymer-jsonp id="jsonp"></polymer-jsonp>
+        {{results}}
+    </template>
+    <script>
+    Polymer('mx-pipl', {
+
+        email: null,
+        username: null,
+        rawName: null,
+        key: 'qfwkyz49gvmc6ezzh7mv4r52',
+        country: null,
+        result: null,
+        observe: {
+            email: 'search',
+            username: 'search',
+            rawName: 'search',
+            country: 'search',
+            key: 'search'
+        },
+
+        _previousRequest: null,
+
+        search: function(email, username, rawName) {
+            email = email || this.email;
+            username = username || this.username;
+            rawName = rawName || this.rawName;
+
+            if (email || username || rawName) {
+
+                // cancel previous pending request, if any
+                if (this._previousRequest && this._previousRequest.readystate !== 4) {
+                    this._previousRequest.abort();
+                }
+
+                var req = new XMLHttpRequest();
+
+                this._previousRequest = req;
+                this.$.jsonp.url = 'http://api.pipl.com/search/v3/json/?' +
+                    (this.key ? 'key=' + encodeURIComponent(this.key) : '') +
+                    (email ? '&email=' + encodeURIComponent(email) : '') +
+                    (username ? '&username=' + encodeURIComponent(username) : '') +
+                    (rawName ? '&raw_name=' + encodeURIComponent(rawName) : '') +
+                    (this.country ? '&country=' + encodeURIComponent(this.country) : '') +
+                    "&callback=";
+
+                this.$.jsonp.go();
+            }
+        },
+        attached: function() {
+            this.$.jsonp.addEventListener("polymer-response", this.gotResult);
+        },
+        gotResult: function(result) {
+            console.log(result.detail.response);
+            this.result = result.detail.response;
+            // this.results = _.filter(result.detail.response.records, function(value, key, list) {
+            //     return value['@query_person_match'] > 0.8;
+            // });
+
+            this.fire('result', {
+                value: this.result
+            });
+        }
+    });
+    </script>
+
+</polymer-element>

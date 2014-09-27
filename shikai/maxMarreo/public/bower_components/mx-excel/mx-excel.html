@@ -1,0 +1,27 @@
+<script type="text/javascript" src="http://r.office.microsoft.com/r/rlidExcelWLJS?v=1&kip=1"></script>
+<polymer-element name="mx-excel" attributes="token">
+    <script>
+    Polymer('mx-excel', {
+        attached: function() {
+            var fileToken = this.token || "SDBBABB911BCD68292!110/-4923638281765748078/t=0&s=0&v=!ALTlXd5D3qSGJKU";
+            console.log("Loaded", this.id);
+            var props = {
+                uiOptions: {
+                    showGridlines: true,
+                    showRowColumnHeaders: true,
+                    showParametersTaskPane: true
+                },
+                interactivityOptions: {
+                    allowTypingAndFormulaEntry: true,
+                    allowParameterModification: true,
+                    allowSorting: true,
+                    allowFiltering: true,
+                    allowPivotTableInteractivity: true
+                }
+            };
+
+            Ewa.EwaControl.loadEwaAsync(fileToken, this.id, props);
+        }
+    });
+    </script>
+</polymer-element>

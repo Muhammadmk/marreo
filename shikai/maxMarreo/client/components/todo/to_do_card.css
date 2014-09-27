@@ -1,0 +1,10 @@
+.card2 {
+	top: 0;
+	position:absolute;
+	background-color: #ffffff;
+	z-index: 5;
+}
+
+.content {
+	overflow: scroll;
+}

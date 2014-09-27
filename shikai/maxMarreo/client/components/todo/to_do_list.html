@@ -1,0 +1,14 @@
+<template name="toDoList">
+    <nav>
+        {{#each toDoList}} {{#if items}}
+        <section>
+            <header>
+                <h2 class="text-info">{{key}}</h2>
+            </header>
+            <div class="list-group">
+                {{#each items}} {{> toDoItem}} {{/each}}
+            </div>
+        </section>
+        {{/if}} {{/each}}
+    </nav>
+</template>

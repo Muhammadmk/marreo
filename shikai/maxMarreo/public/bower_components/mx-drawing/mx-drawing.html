@@ -1,0 +1,32 @@
+<!--
+/**
+ * @module drawing-app
+ */
+/**
+ * A Simple HTML5 Drawing App
+ *
+ * Examples:
+ *
+ * @class drawing-app
+ * @blurb A Simple HTML5 Drawing App
+ * @author Max XU
+ * @categories Sketch
+ *
+ */
+-->
+
+<!--[if IE]><script type="text/javascript" src="excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="html5-canvas-drawing-app.js"></script>
+
+<polymer-element name="mx-drawing">
+    <template>
+        <div id="canvas"></div>
+    </template>
+    <script>
+    Polymer('mx-drawing', {
+        attached: function() {
+            drawingApp.init(this.$.canvas);
+        }
+    });
+    </script>
+</polymer-element>

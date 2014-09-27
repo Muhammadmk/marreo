@@ -1,0 +1,7 @@
+<template name="map">
+	{{#if static}}
+    	<img src="http://maps.googleapis.com/maps/api/staticmap?center={{query}}&markers=color:green|{{query}}&zoom=14&size={{size}}&sensor=false"/>
+    {{else}}
+    	<iframe seamless fit src='{{url}}'></iframe>
+    {{/if}}
+</template>

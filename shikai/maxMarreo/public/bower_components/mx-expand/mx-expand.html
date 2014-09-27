@@ -1,0 +1,53 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+
+<polymer-element name="mx-expand">
+<template>
+	<style>
+
+		#container {
+			overflow: auto;
+		}
+
+		.card {
+			position: relative;
+			height: 150px;
+			width: 150px;
+			font-size: 50px;
+			margin: 8px;
+			background-color: tomato;
+			border-radius: 4px;
+			cursor: default;
+		}
+
+		.view {
+			font-size: 250px;
+			background-color: tomato;
+		}
+	</style>
+	<core-animated-pages id="pages" flex selected="0" transitions="cross-fade-all hero-transition">
+
+	<section vertical layout>
+		<div id="container" flex horizontal wrap around-justified layout hero-p>
+			<div class="card" vertical center center-justified layout hero hero-id="item" on-tap="{{selectView}}"><iframe width="100%" height="100%" scrolling="no" frameborder="0" seamless src="http://map.openseamap.org/weather.php"></iframe></div>
+		</div>
+	</section>
+	<section vertical layout>
+		<div class="view" flex vertical center center-justified layout hero hero-id="item" on-tap="{{deselectView}}"><iframe width="100%" height="100%" scrolling="no" frameborder="0" seamless src="http://map.openseamap.org/weather.php"></iframe></div>
+	</section>
+</core-animated-pages>
+</template>
+
+<script>
+	Polymer('mx-expand', {
+		selectView :function(event, detail, sender) {
+			console.log("hello")
+			this.$.pages.selected = 1;
+		},
+		deselectView : function(event, detail, sender) {
+			console.log("hello2")
+			this.$.pages.selected = 0;
+		}
+	});
+</script>
+</polymer-element>

@@ -1,0 +1,33 @@
+<template name="todo">
+    <!-- <link rel="import" href="elements/card-header.html"> -->
+
+    <!-- <div class="main"> -->
+    {{#if createReactive}}
+    <div class="block full">
+        <div class="block-title">
+            <div class="block-options pull-left">
+                <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default back" data-toggle="tooltip" title="Settings"><i class="fa fa-arrow-left"></i></a>
+            </div>
+            <h2>I want to ...</h2>
+        </div>
+        <div class="content">
+            <!-- {{> toDoList}} -->
+            {{> toDoAdd}}
+        </div>
+    </div>
+    {{else}}
+    <div class="block full" vertical layout style="height:100%;">
+        <div class="block-title">
+            <div class="block-options pull-right">
+                <a class="btn btn-effect-ripple btn-default create"><i class="fa fa-plus"></i> New Task</a>
+            </div>
+            <h2>To Do List</h2>
+        </div>
+        <div class="content" flex>
+            {{> toDoList}}
+        </div>
+    </div>
+    {{/if}}
+
+    <!-- </div> -->
+</template>

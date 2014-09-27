@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pipl Search Demo</title>
+    <script type="text/javascript" src="../platform/platform.js"></script>
+    <link rel="import" href="mx-pipl.html">
+    <style>
+      * {margin: 0;padding: 0;}
+      html, button, input, select, textarea {font-family: sans-serif;}
+      body {padding: 2em;}
+      .media {padding-bottom: 1em;}
+      .media, .bd {overflow:hidden; _overflow:visible; zoom:1;}
+      .media .img {float:left; margin-right: 10px;}
+      .media .img img{display:block;}
+      .media .imgExt{float:right; margin-left: 10px;}
+      h1, h2, p {padding: 0 0 .5em 0;}
+      input {padding: 0.5em; margin-bottom: 1em;}
+      ul {list-style: none;}
+    </style>
+  </head>
+  <body>
+    <h1>People Search Component Demo</h1>
+    <template id="my-template" is="auto-binding">
+      <input type="text" placeholder="Type a email to search" id="input">
+      <mx-pipl id="search" email="{{queryTerm}}" rawName="{{name}}"/>
+      <ul>
+        <template repeat="{{$.search.result}}">
+          <li class="media">
+            <div class="img">
+            <img src="{{images[0].url}}" width="64" height="64">
+          </div>
+          <div class="bd">
+            <h2>{{names[0].display}}</h2>
+            <a href='{{source.url}}'>Link</a>
+          </div>
+          </li>
+        </template>
+      </ul>
+    </template>
+    <script>
+    var t = document.querySelector('#my-template');
+    t.addEventListener('template-bound', function() {
+      var mxSearch = document.querySelector('mx-pipl');    
+      var input = document.querySelector('input');
+      input.addEventListener('keyup', function(e) {
+        t.queryTerm = this.value;
+      }, false);
+    });
+  </script>
+  </body>
+</html>
