@@ -1,0 +1,15 @@
+.card2 {
+	top: 0;
+	position:absolute;
+	background-color: #ffffff;
+	z-index: 5;
+}
+
+.content {
+	position: absolute;
+	top:50px;
+	left:0;
+	width:100%;
+	overflow:scroll;
+	z-index: 1;
+}

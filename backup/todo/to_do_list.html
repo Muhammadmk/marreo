@@ -1,0 +1,11 @@
+<template name="toDoList">
+    {{#each toDoList}}
+
+    {{#if items}}
+    <h2 class="text-info">{{key}} <span class="pull-right">{{progress}}</span></h2>
+    <div class="list-group">
+        {{#each items}} {{> toDoItem}} {{/each}}
+    </div>
+    {{/if}}
+    {{/each}}
+</template>

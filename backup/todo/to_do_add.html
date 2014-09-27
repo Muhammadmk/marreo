@@ -1,0 +1,18 @@
+<template name="toDoAdd">
+	<link rel="import" href="/bower_components/paper-input/paper-input.html">
+	<link rel="import" href="/bower_components/paper-button/paper-button.html">
+	<div class="addContainer" horizontal layout center>
+		<div class="inputContainer">
+			<form>
+				<paper-input name="title" required label="Do something ..." value="{{editObjectReactive.title}}"></paper-input>
+				<paper-input name="date" trequired type="date" value="{{editObjectReactive.date}}"></paper-input>
+				<paper-input name="description" required label="Details ..." value="{{editObjectReactive.description}}"></paper-input><br/>
+				{{#if editObjectReactive}}
+				<paper-button label="save" id="editToDo"></paper-button>
+				{{else}}
+				<paper-button label="add" id="addToDo"></paper-button>
+				{{/if}}
+			</form>
+		</div>
+	</div>
+</template>
