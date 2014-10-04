@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>&lt;freebase-search&gt;</title>
+    <script src="bower_components/platform/platform.js"></script>
+
+    <!-- Demo CSS -->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto'  type='text/css'>
+    <link rel="stylesheet" href="demo/demo.css">
+
+    <!-- Importing freebase-search -->
+    <link rel="import" href="src/freebase-search.html">
+</head>
+<body>
+    <div class="search-box">
+        <label>Search: </label>
+        <freebase-search id="search-element" thumbnail="true" lang="en" key="AIzaSyCQXvFx7PMLEImgshuRNJ_vlngLBCTVxkA"></freebase-search>
+    </div>
+
+    <div class="result-box">
+        <div class="show-image">
+            <img src="http://placehold.it/222&text=no+image" alt="">
+        </div>
+
+        <div class="about">
+            <div class="show-socialmedia">
+                <a class="fb-icon" target="_blank"></a>
+                <a class="gp-icon" target="_blank"></a>
+                <a class="tw-icon" target="_blank"></a>
+            </div>
+            <div class="show-name"></div>
+            <div class="show-title"></div>
+            <div class="show-description"></div>
+        </div>
+    </div>
+
+    <script>
+      (function(){
+        var element = document.querySelector('#search-element'),
+            showDesc = document.querySelector('.show-description'),
+            showImg = document.querySelector('.show-image > img'),
+            showName = document.querySelector('.show-name'),
+            showTitle = document.querySelector('.show-title'),
+            fbicon = document.querySelector('.fb-icon'),
+            gpicon = document.querySelector('.gp-icon'),
+            twicon = document.querySelector('.tw-icon'),
+            key = 'AIzaSyCQVC9yA72POMg2VjiQhSJQQP1nf3ToZTs';
+
+        element.addEventListener('result', function(result) {
+          console.log(result);
+          var description = result.detail.description,
+              socialMedias = result.detail.socialMediasUrl,
+              name = !!result.detail.name ? result.detail.name : '',
+              title = !!result.detail.title ? result.detail.title : '';
+              images = result.detail.images;
+
+          fbicon.style.display = 'none';
+          gpicon.style.display = 'none';
+          twicon.style.display = 'none';
+
+          showName.innerHTML = name;
+
+          showTitle.innerHTML = title;
+
+           showDesc.innerHTML = description;
+
+          if(!!socialMedias) {
+              for(var i = 0; i < socialMedias.length; i++) {
+                  var socialMedia = socialMedias[i];
+                  if(socialMedia.indexOf('plus.google.com') !== -1) {
+                      gpicon.style.display = 'block';
+                      gpicon.href = socialMedia;
+                  } else if(socialMedia.indexOf('twitter.com') !== -1) {
+                      twicon.style.display = 'block';
+                      twicon.href = socialMedia;
+                  } else if(socialMedia.indexOf('facebook.com') !== -1) {
+                      fbicon.style.display = 'block';
+                      fbicon.href = socialMedia;
+                  }
+              }
+          }
+
+
+
+          if(images.length > 0) {
+            showImg.src = images[0];
+          } else {
+            showImg.src = 'http://placehold.it/160&text=no+image';
+          }
+        });
+      })();
+    </script>
+</body>
+</html>

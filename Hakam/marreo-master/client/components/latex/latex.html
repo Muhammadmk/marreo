@@ -1,0 +1,25 @@
+<template name="latex">
+    <style>
+    .katex {
+        height: 100%;
+        width: 100%;
+        display: block;
+    }
+    </style>
+    {{#if edit}}
+    <div class="block edit nogap">
+        {{#katex}} {{data.value}} {{else}}
+        <div class="alert alert-danger">
+            <h4>
+                <strong>Error:</strong>
+                <small>There was a parsing error.</small>
+            </h4>
+        </div>
+        {{/katex}}
+    </div>
+    {{else}}
+    <div class="block nogap">
+        <textarea class="form-control nogap" value="{{data.value}}" placeholder="enter your LaTeX here e.g. x = a_0 + \frac{1}{a_1 + \frac{1}{a_2 + \frac{1}{a_3 + a_4}}}"></textarea>
+    </div>
+    {{/if}}
+</template>

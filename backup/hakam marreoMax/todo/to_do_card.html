@@ -1,0 +1,74 @@
+<template name="todo">
+    <!-- <link rel="import" href="elements/card-header.html"> -->
+    <link rel="import" href="/bower_components/paper-input/paper-input.html">
+    <link rel="import" href="/bower_components/paper-button/paper-button.html">
+    <link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
+
+    <!-- <div class="main"> -->
+    {{#if createReactive}}
+    <div class="block full" style="height:100%; overflow:scroll;">
+        <div class="block-title">
+            <div class="block-options pull-left">
+                <a class="btn btn-effect-ripple btn-default back"><i class="fa fa-arrow-left"></i></a>
+            </div>
+            <h2>I want to ...</h2>
+        </div>
+        <div class="content">
+            <div class="addContainer" horizontal layout center>
+                <div class="inputContainer">
+                    <form>
+                        <paper-input name="title" required label="Do something ..." value="{{editObjectReactive.title}}"></paper-input>
+                        <paper-input name="date" trequired type="date" value="{{editObjectReactive.date}}"></paper-input>
+                        <paper-input name="description" required label="Details ..." value="{{editObjectReactive.description}}"></paper-input><br/>
+                        <!-- check whether it is a new todo item or editing an existing todo item -->
+                        {{#if editObjectReactive}}
+                        <paper-button label="save" id="editToDo"></paper-button>
+                        {{else}}
+                        <paper-button label="add" id="addToDo"></paper-button>
+                        {{/if}}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <div class="block full" style="height:100%; overflow:scroll;">
+        <div class="block-title">
+            <div class="block-options pull-right">
+                <a class="btn btn-effect-ripple btn-default create"><i class="fa fa-plus"></i> New Task</a>
+            </div>
+            <h2>To Do List</h2>
+        </div>
+        <div class="content">
+            <!-- loop the sorted todoList -->
+            {{#each toDoList}}
+            {{#if items}}
+            <h2 class="text-info">{{key}} <span class="pull-right">{{progress}}</span></h2>
+            <div class="list-group">
+                <!-- loop of each todo item in the todoList category -->
+                {{#each items}} 
+                <a href="javascript:void(0)" class="list-group-item">
+                    <span class="pull-right">
+                        <a class="btn btn-effect-ripple btn-default edit"><i class="fa fa-pencil"></i></a>
+                        <a class="btn btn-effect-ripple btn-default delete"><i class="fa fa-trash"></i></a>
+                    </span>
+                    <span class="pull-right">
+                        <paper-checkbox class="green completedCheck" checked="{{completed}}"></paper-checkbox>
+                    </span>
+                    <h4 class="list-group-item-heading">
+                        <strong>{{title}}</strong>
+                    </h4>
+                    <p class="list-group-item-text">{{prettyDate}}</p>
+                </a>
+                {{/each}}
+                <!-- endloop of each todo item -->
+            </div>
+            {{/if}}
+            {{/each}}
+            <!-- end loop of sorted todoList -->
+        </div>
+    </div>
+    {{/if}}
+
+    <!-- </div> -->
+</template>

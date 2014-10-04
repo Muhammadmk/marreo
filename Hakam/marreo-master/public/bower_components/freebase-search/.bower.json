@@ -1,0 +1,36 @@
+{
+  "name": "freebase-search",
+  "version": "0.0.3",
+  "description": "Web Component wrapper to the Freebase API, that allows you to search on Freebase (a large collaborative knowledge base) using Polymer",
+  "authors": [
+    "Cesar William <cesarwbr@gmail.com>"
+  ],
+  "license": "MIT",
+  "main": "dist/freebase-search.html",
+  "homepage": "http://cesarwbr.github.io/freebase-search/",
+  "keywords": [
+    "polymer",
+    "freebase",
+    "search",
+    "web-components"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "polymer": "Polymer/polymer#~0.3.3"
+  },
+  "_release": "0.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.3",
+    "commit": "159dea52b3adc860149c80830c38cf9992b2429d"
+  },
+  "_source": "git://github.com/cesarwbr/freebase-search.git",
+  "_target": "~0.0.3",
+  "_originalSource": "freebase-search",
+  "_direct": true
+}

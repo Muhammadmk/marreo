@@ -1,0 +1,3 @@
+Template.draw.rendered = function() {
+    
+}

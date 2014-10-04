@@ -1,0 +1,3 @@
+Template.chart.rendered = function() {
+    
+}

@@ -1,0 +1,3 @@
+Template.aloha.rendered = function() {
+    
+}

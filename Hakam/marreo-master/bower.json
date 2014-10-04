@@ -1,0 +1,35 @@
+{
+  "name": "graphpaper",
+  "version": "0.1.0",
+  "homepage": "https://github.com/xumx/magic-square",
+  "authors": [
+    "Max Xu <deepthought@gmail.com>"
+  ],
+  "description": "Private Project",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "polymer": "~0.4",
+    "platform": ">=0.4.0 <1.0.0",
+    "formulajs": "~0.0.16",
+    "spotify-previewbutton": "~0.3.0",
+    "spotify-search": "~1.0.1",
+    "freebase-search": "~0.0.3",
+    "paper-calculator": "Polymer/paper-calculator#~0.3.5",
+    "google-apis": "GoogleWebComponents/google-apis#~0.3.1",
+    "google-youtube": "GoogleWebComponents/google-youtube#~0.0.4",
+    "google-map": "GoogleWebComponents/google-map#~0.3.1",
+    "google-chart": "GoogleWebComponents/google-chart#~0.0.1",
+    "google-hangout-button": "GoogleWebComponents/google-hangout-button",
+    "google-map-streetview-panorama": "GoogleWebComponents/google-map-streetview-panorama#~0.0.1",
+    "app-color-card": "~0.0.3",
+    "polymer-jsonp": "polymerLabs/polymer-jsonp#~0.3.0"
+  },
+  "resolutions": {
+    "polymer": "~0.4",
+    "google-apis": "~0.3.1",
+    "polymer-test-tools": ">=0.4.0 <1.0.0",
+    "core-component-page": ">=0.4.0 <1.0.0",
+    "platform": ">=0.4.0 <1.0.0"
+  }
+}

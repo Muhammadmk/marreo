@@ -1,0 +1,82 @@
+<template name="todo">
+    <!-- <link rel="import" href="elements/card-header.html"> -->
+    <link rel="import" href="/bower_components/paper-input/paper-input.html">
+    <link rel="import" href="/bower_components/paper-button/paper-button.html">
+    <link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
+
+    
+    {{#if mainPage}}
+    <!-- if toggle is true, load item list page -->
+    <div class="block full" vertical layout style="height:100%;">
+        <div class="block-title">
+            <div class="block-options pull-right">
+                <a class="btn btn-effect-ripple btn-default create"><i class="fa fa-plus"></i></a>
+            </div>
+            <h2>To Do List</h2>
+        </div>
+        <div class="content" flex>
+
+            <!-- loop through all the list item -->
+            {{#each toDoList}} {{#if items}}
+            <section>
+                <header>
+                    <h2 class="text-info">{{key}} <span class="pull-right">{{progress}}</span></h2>
+                </header>
+                <div class="list-group">
+                    {{#each items}} 
+                    <!-- to do item -->
+                    <a href="javascript:void(0)" class="list-group-item">
+                        <span class="pull-right">
+
+                            <a class="btn btn-effect-ripple btn-default edit"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-effect-ripple btn-default delete"><i class="fa fa-trash"></i></a>
+
+                            <paper-checkbox class="green completedCheck" checked="{{completed}}"></paper-checkbox>
+                        </span>
+                        <h4 class="list-group-item-heading itemTitle">
+                            <p><strong>{{title}}</strong></p>
+                        </h4>
+                        <p class="list-group-item-text">{{prettyDate}}</p>
+                    </a>
+                    <!-- END to do item -->
+                    {{/each}}
+                </div>
+            </section>
+            {{/if}} {{/each}}
+            <!-- END loop for list -->
+
+        </div>
+    </div>
+    {{else}}
+    <!-- if toggle is false, load add new item page-->
+    <div class="block full">
+        <div class="block-title">
+            <div class="block-options pull-left">
+                <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default back" data-toggle="tooltip" title="Settings"><i class="fa fa-arrow-left"></i></a>
+            </div>
+            <h2>I want to ...</h2>
+        </div>
+        <div class="content">
+
+            <!-- this part is form for add new to do item -->
+            <div class="addContainer" horizontal layout center>
+                <div class="inputContainer">
+                    <form>
+                        <paper-input name="title" required label="Do something ..." value="{{itemTitle}}"></paper-input>
+                        <paper-input name="date" trequired type="date"></paper-input>
+                        <paper-input name="description" required label="Details ..."></paper-input><br/>
+                        <!-- if it is edit mode -->
+                        {{#if editSubmitBtn}}
+                        <paper-button label="save" id="editToDo"></paper-button>
+                        {{else}}
+                        <paper-button label="add" id="addToDo"></paper-button>
+                        {{/if}}
+                    </form>
+                </div>
+            </div>
+            <!-- END form -->
+        </div>
+    </div>
+
+    {{/if}}
+</template>
