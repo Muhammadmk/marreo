@@ -6,11 +6,7 @@ var arrayObjectIndexOf = function(myArray, searchTerm, property) {
     return -1;
 }
 
-//hardcoding the wedding date
-moment();
-weddingDay = moment("2014-11-10 08:00");
-console.log(weddingDay);
-
+weddingDateStr = "2015-11-15 08:00";
 
 Template.todo.helpers({
     // this function return the variable for mainPage, boolean
@@ -120,6 +116,10 @@ Template.todo.helpers({
             items: []
         }];
 
+        //hardcoding the wedding date
+        weddingDay = moment(weddingDateStr);
+        console.log(weddingDay);
+
         var endDate = weddingDay;
         console.log(endDate);
         var current = moment();
@@ -145,38 +145,20 @@ Template.todo.helpers({
             currentArray = 8;
         }
 
-
+        console.log("currentArray: " + currentArray);
 
         //sorting method
         _.reduce(toDoList, function(memo, value) {
             // value.prettyDate = moment(value.date).from(endDate);
-            console.log("*********");
-            console.log(moment(value.date));
-            console.log(endDate.diff(moment(value.date), 'days'));
-
-            if (value.ref < currentArray) {
+            // console.log("*********");
+            // console.log(moment(value.date));
+            // console.log(endDate.diff(moment(value.date), 'days'));
+            console.log(value.ref);
+            if (value.ref < currentArray && currentArray != 0) {
                 memo[currentArray].items.push(value);
             } else {
-                if (endDate.diff(moment(value.date), 'months') >= 12) {
-                    memo[0].items.push(value);
-                } else if (endDate.diff(moment(value.date), 'months') >= 9) {
-                    memo[1].items.push(value);
-                } else if (endDate.diff(moment(value.date), 'months') >= 6) {
-                    memo[2].items.push(value);
-                } else if (endDate.diff(moment(value.date), 'months') >= 2) {
-                    memo[3].items.push(value);
-                } else if (endDate.diff(moment(value.date), 'months') >= 1) {
-                    memo[4].items.push(value);
-                } else if (endDate.diff(moment(value.date), 'weeks') >= 1) {
-                    memo[5].items.push(value);
-                } else if (endDate.diff(moment(value.date), 'days') >= 7) {
-                    memo[6].items.push(value);
-                } else if (endDate.diff(moment(value.date), 'days') >= 0) {
-                    memo[7].items.push(value);
-                } else {
-                    memo[8].items.push(value);
-                }
-            }
+                memo[value.ref].items.push(value);
+            } 
 
             return memo;
         }, groups);
@@ -201,12 +183,12 @@ Template.todo.events({
         template.mainPage.set(false);
     },
     'click a.back': function(e, template) {
-       template.mainPage.set(true);
-       template.editSubmitBtn.set(false);
-       template.itemTitle.set("");
-   },
+     template.mainPage.set(true);
+     template.editSubmitBtn.set(false);
+     template.itemTitle.set("");
+ },
 
-   'click #addToDo': function(e, template) {
+ 'click #addToDo': function(e, template) {
     e.preventDefault();
 
         //Initialize if there is no data
@@ -217,6 +199,12 @@ Template.todo.events({
                 }
             }
         }
+
+        console.log("Adding in Progress..");
+        console.log(template.$('[name=category]').val());
+        //hardcoding the wedding date
+        weddingDay = moment(weddingDateStr);
+        console.log(weddingDay);
 
         //check date to see whether to store a reference or create a reference
         var dateInput = template.$('[name=date]').val();
@@ -278,7 +266,11 @@ Template.todo.events({
     },
     'click #editToDo': function(event, template) {
 
-        console.log(template.$('[name=date]').val());
+        console.log("Edting in Progress..");
+        console.log(template.$('[name=category]').val());
+        //hardcoding the wedding date
+        weddingDay = moment(weddingDateStr);
+        console.log(weddingDay);
 
         //check date to see whether to store a reference or create a reference
         var dateInput = template.$('[name=date]').val();
