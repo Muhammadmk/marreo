@@ -64,6 +64,18 @@
                     <form>
                         <paper-input name="title" required label="Do something ..." value="{{itemTitle}}"></paper-input>
                         <paper-input name="date" trequired type="date"></paper-input>
+                        <select class="form-control" name="category">
+                            <option value="99">Choose...</option>
+                            <option value="0">12 months +</option>
+                            <option value="1">9 - 12 months</option>
+                            <option value="2">6 - 8 months</option>
+                            <option value="3">2 - 5 months</option>
+                            <option value="4">1 month</option>
+                            <option value="5">2 weeks</option>
+                            <option value="6">1 week</option>
+                            <option value="7">1 day</option>
+                            <option value="8">Wedding day</option>
+                        </select>
                         <paper-input name="description" required label="Details ..."></paper-input><br/>
                         <!-- if it is edit mode -->
                         {{#if editSubmitBtn}}

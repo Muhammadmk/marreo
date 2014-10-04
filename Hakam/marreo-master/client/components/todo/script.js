@@ -100,10 +100,6 @@ Template.todo.helpers({
             items: []
         }, 
         {
-            key: "2 Months",
-            items: []
-        }, 
-        {
             key: "1 Month",
             items: []
         }, 
@@ -139,16 +135,14 @@ Template.todo.helpers({
             currentArray = 3;
         } else if (endDate.diff(moment(current), 'months') >= 1) {
             currentArray = 4;
-        } else if (endDate.diff(moment(current), 'weeks') >= 2) {
-            currentArray = 5;
         } else if (endDate.diff(moment(current), 'weeks') >= 1) {
-            currentArray = 6;
+            currentArray = 5;
         } else if (endDate.diff(moment(current), 'days') >= 7) {
-            currentArray = 7;
+            currentArray = 6;
         } else if (endDate.diff(moment(current), 'days') >= 0) {
-            currentArray = 8;
+            currentArray = 7;
         } else {
-            currentArray = 9;
+            currentArray = 8;
         }
 
 
@@ -173,38 +167,22 @@ Template.todo.helpers({
                     memo[3].items.push(value);
                 } else if (endDate.diff(moment(value.date), 'months') >= 1) {
                     memo[4].items.push(value);
-                } else if (endDate.diff(moment(value.date), 'weeks') >= 2) {
-                    memo[5].items.push(value);
                 } else if (endDate.diff(moment(value.date), 'weeks') >= 1) {
-                    memo[6].items.push(value);
+                    memo[5].items.push(value);
                 } else if (endDate.diff(moment(value.date), 'days') >= 7) {
-                    memo[7].items.push(value);
+                    memo[6].items.push(value);
                 } else if (endDate.diff(moment(value.date), 'days') >= 0) {
-                    memo[8].items.push(value);
+                    memo[7].items.push(value);
                 } else {
-                    memo[9].items.push(value);
+                    memo[8].items.push(value);
                 }
             }
 
             return memo;
         }, groups);
 
-        //moving the overdue items to the current list
-        var today = moment();
-        var mthCompare = endDate.diff(today, 'months');
-        var weekCompare = endDate.diff(today, 'weeks');
-        var dayCompare = endDate.diff(today, 'days');
-
-        if (mthCompare >= 1) {
-            if(mthCompare >= 9) {
-                groups[1].items.concat(groups[0]);
-                groups[0].items = [];
-                //STOP HERE
-            }
-        }
-
-        return groups
-    }
+return groups
+}
 
 });
 
@@ -223,12 +201,12 @@ Template.todo.events({
         template.mainPage.set(false);
     },
     'click a.back': function(e, template) {
-     template.mainPage.set(true);
-     template.editSubmitBtn.set(false);
-     template.itemTitle.set("");
- },
+       template.mainPage.set(true);
+       template.editSubmitBtn.set(false);
+       template.itemTitle.set("");
+   },
 
- 'click #addToDo': function(e, template) {
+   'click #addToDo': function(e, template) {
     e.preventDefault();
 
         //Initialize if there is no data
@@ -240,31 +218,36 @@ Template.todo.events({
             }
         }
 
-        //checking date to see which reference to store
-        var checkDate = new Date(template.$('[name=date]').val());
-        var ref = 0;
+        //check date to see whether to store a reference or create a reference
+        var dateInput = template.$('[name=date]').val();
+        var checkDate = "";
+        var ref = 99;
+        if (dateInput || dateInput != "") {
+            checkDate = new Date(dateInput);
 
-        if (weddingDay.diff(moment(value.date), 'months') >= 12) {
-            ref = 0;
-        } else if (weddingDay.diff(moment(checkDate), 'months') >= 9) {
-            ref = 1;
-        } else if (weddingDay.diff(moment(checkDate), 'months') >= 6) {
-            ref = 2;
-        } else if (weddingDay.diff(moment(checkDate), 'months') >= 2) {
-            ref = 3;
-        } else if (weddingDay.diff(moment(checkDate), 'months') >= 1) {
-            ref = 4;
-        } else if (weddingDay.diff(moment(checkDate), 'weeks') >= 2) {
-            ref = 5;
-        } else if (weddingDay.diff(moment(checkDate), 'weeks') >= 1) {
-            ref = 6;
-        } else if (weddingDay.diff(moment(checkDate), 'days') >= 7) {
-            ref = 7;
-        } else if (weddingDay.diff(moment(vcheckDate), 'days') >= 0) {
-            ref = 8;
+            if (weddingDay.diff(moment(value.date), 'months') >= 12) {
+                ref = 0;
+            } else if (weddingDay.diff(moment(checkDate), 'months') >= 9) {
+                ref = 1;
+            } else if (weddingDay.diff(moment(checkDate), 'months') >= 6) {
+                ref = 2;
+            } else if (weddingDay.diff(moment(checkDate), 'months') >= 2) {
+                ref = 3;
+            } else if (weddingDay.diff(moment(checkDate), 'months') >= 1) {
+                ref = 4;
+            } else if (weddingDay.diff(moment(checkDate), 'weeks') >= 1) {
+                ref = 5;
+            } else if (weddingDay.diff(moment(checkDate), 'days') >= 7) {
+                ref = 6;
+            } else if (weddingDay.diff(moment(vcheckDate), 'days') >= 0) {
+                ref = 7;
+            } else {
+                ref = 8;
+            }
         } else {
-            ref = 9;
+            ref = template.$('[name=category]').val();
         }
+        
 
 
         // update the data collection
@@ -274,7 +257,7 @@ Template.todo.events({
                     _id: Random.id(),
                     title: template.$('[name=title]').val(),
                     description: template.$('[name=description]').val(),
-                    date: new Date(template.$('[name=date]').val()),
+                    date: checkDate,
                     ref: ref,
                     completed: false
                 }
@@ -297,18 +280,51 @@ Template.todo.events({
 
         console.log(template.$('[name=date]').val());
 
+        //check date to see whether to store a reference or create a reference
+        var dateInput = template.$('[name=date]').val();
+        var checkDate = "";
+        var ref = 99;
+        if (dateInput || dateInput != "") {
+            checkDate = new Date(dateInput);
+
+            if (weddingDay.diff(moment(value.date), 'months') >= 12) {
+                ref = 0;
+            } else if (weddingDay.diff(moment(checkDate), 'months') >= 9) {
+                ref = 1;
+            } else if (weddingDay.diff(moment(checkDate), 'months') >= 6) {
+                ref = 2;
+            } else if (weddingDay.diff(moment(checkDate), 'months') >= 2) {
+                ref = 3;
+            } else if (weddingDay.diff(moment(checkDate), 'months') >= 1) {
+                ref = 4;
+            } else if (weddingDay.diff(moment(checkDate), 'weeks') >= 1) {
+                ref = 5;
+            } else if (weddingDay.diff(moment(checkDate), 'days') >= 7) {
+                ref = 6;
+            } else if (weddingDay.diff(moment(vcheckDate), 'days') >= 0) {
+                ref = 7;
+            } else {
+                ref = 8;
+            }
+        } else {
+            ref = template.$('[name=category]').val();
+        }
+
         // get the array index of this element
         var arrIndex = arrayObjectIndexOf(mx.current.data.value.items, editItemId, "_id");
 
-// prepare the modifier 
-modifier = {$set: {}};
-modifier.$set["data.value.items." + arrIndex + ".title"] = template.$('[name=title]').val();
+        // prepare the modifier 
+        modifier = {$set: {}};
+        modifier.$set["data.value.items." + arrIndex + ".title"] = template.$('[name=title]').val();
+        modifier.$set["data.value.items." + arrIndex + ".description"] = template.$('[name=description]').val();
+        modifier.$set["data.value.items." + arrIndex + ".date"] = checkDate;
+        modifier.$set["data.value.items." + arrIndex + ".ref"] = ref;
 
-// update the value
-Squares.update({_id: mx.current._id}, modifier);
+        // update the value
+        Squares.update({_id: mx.current._id}, modifier);
 
-template.mainPage.set(true);
-template.editSubmitBtn.set(false);
+        template.mainPage.set(true);
+        template.editSubmitBtn.set(false);
 
         // console.log("enter here");
         // editObject = this;
