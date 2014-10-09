@@ -23,17 +23,60 @@ The standard set of [YouTube player events](https://developers.google.com/youtub
 @homepage https://googlewebcomponents.github.io/google-youtube
 -->
 <polymer-element name="google-youtube"
-                 attributes="videoid state width height currenttime duration currenttimeformatted durationformatted fractionloaded chromeless">
+                 attributes="videoid state width height currenttime duration currenttimeformatted durationformatted fractionloaded chromeless thumbnail fluid">
   <template>
-    <link href="google-youtube.css" rel="stylesheet" />
+    <style>
+      :host {
+        display: block;
+      }
 
-    <google-youtube-api on-api-load="{{apiLoad}}"></google-youtube-api>
+      :host([fluid]) {
+        width: 100%;
+        max-width: 100%;
+        position: relative;
+      }
 
-    <div id="player"></div>
+      :host([fluid]) iframe,
+      :host([fluid]) #thumbnail {
+        vertical-align: bottom;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+      }
+
+      #container {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      #thumbnail {
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+    </style>
+
+    <div id="container" style="width: {{width}}; height: {{height}}">
+      <template if="{{thumbnail}}">
+        <img id="thumbnail"
+             src="{{thumbnail}}"
+             title="YouTube video thumbnail."
+             alt="YouTube video thumbnail."
+             on-tap="{{handleThumbnailTap}}">
+      </template>
+
+      <template if="{{!thumbnail}}">
+        <google-youtube-api on-api-load="{{apiLoad}}"></google-youtube-api>
+      </template>
+
+      <div id="player"></div>
+    </div>
   </template>
 
   <script>
-    Polymer('google-youtube', {
+    Polymer({
       /**
        * Fired when the YouTube player is fully initialized and ready for use.
        *
@@ -177,6 +220,62 @@ The standard set of [YouTube player events](https://developers.google.com/youtub
       chromeless: false,
 
       /**
+       * The URL of an image to use as a custom thumbnail.
+       *
+       * This is optional; if not provided, the standard YouTube embed (which uses the thumbnail associated
+       * with the video on YouTube) will be used.
+       *
+       * If `thumbnail` is set, than an `<img>` containing the thumbnail will be used in lieu of the actual
+       * YouTube embed. When the thumbnail is clicked, the `<img>` is swapped out for the actual YouTube embed,
+       * which will have [`autoplay=1`](https://developers.google.com/youtube/player_parameters#autoplay) set by default (in addtional to any other player parameters specified on this element).
+       *
+       * Please note that `autoplay=1` won't actually autoplay videos on mobile browsers, so two taps will be required
+       * to play the video there. Also, on desktop browsers, setting `autoplay=1` will prevent the playback
+       * from [incrementing the view count](https://support.google.com/youtube/answer/1714329) for the video.
+       *
+       * @attribute thumbnail
+       * @type string
+       * @default ''
+       */
+      thumbnail: '',
+
+      /**
+       * If `fluid` is set, then the player will set its width to 100% to fill
+       * the parent container, while adding `padding-top` to preserve the
+       * apect ratio provided by `width` and `height`. If `width` and `height`
+       * have not been set, the player will fall back to a 16:9 aspect ratio.
+       * This is useful for responsive designs where you don't want to 
+       * introduce letterboxing on your video.
+       *
+       * @attribute fluid
+       * @type boolean
+       * @default false
+       */
+      fluid: false,
+
+      /**
+       * Sets fluid width/height
+       *
+       * If the fluid attribute is set, the aspect ratio of the video will
+       * be inferred (if set in pixels), or assumed to be 16:9. The element
+       * will give itself enough top padding to force the player to use the
+       * correct aspect ratio, even as the screen size changes.
+       *
+       */
+      ready: function() {
+        if (this.hasAttribute('fluid')) {
+          var ratio = parseInt(this.height, 10) / parseInt(this.width, 10);
+          if (isNaN(ratio)) {
+            ratio = 9/16;
+          }
+          ratio *= 100;
+          this.width = '100%';
+          this.height = 'auto';
+          this.style['padding-top'] = ratio + '%';
+        }
+      },
+
+      /**
        * Plays the current video.
        *
        * Note that on certain mobile browsers, playback
@@ -190,6 +289,55 @@ The standard set of [YouTube player events](https://developers.google.com/youtub
         }
       },
 
+      /**
+       * Modifies the volume of the current video.
+       *
+       * Developers should take care not to break expected user experience by programmatically
+       * modifying the volume on mobile browsers.
+       * Note that the YouTube player, in addition, does not display volume controls in a
+       * mobile environment.
+       *
+       * @method setVolume
+       * @param {number} volume The new volume, an integer between 0 (muted) and 100 (loudest).
+       */      
+      setVolume: function(volume) {
+        if (this.player && this.player.setVolume) {
+          this.player.setVolume(volume);
+        }
+      },
+      
+      /**
+       * Mutes the current video.
+       *
+       * Developers should take care not to break expected user experience by programmatically
+       * modifying the volume on mobile browsers.
+       * Note that the YouTube player, in addition, does not display volume controls in a
+       * mobile environment.
+       *
+       * @method mute
+       */        
+      mute: function() {
+        if (this.player && this.player.mute) {
+          this.player.mute();
+        }
+      },
+
+      /**
+       * Unmutes the current video.
+       *
+       * Developers should take care not to break expected user experience by programmatically
+       * modifying the volume on mobile browsers.
+       * Note that the YouTube player, in addition, does not display volume controls in a
+       * mobile environment.
+       *
+       * @method unMute
+       */        
+      unMute: function() {
+        if (this.player && this.player.unMute) {
+          this.player.unMute();
+        }
+      },
+      
       /**
        * Pauses the current video.
        *
@@ -230,6 +378,7 @@ The standard set of [YouTube player events](https://developers.google.com/youtub
       player: null,
       updatePlaybackStatsInterval: null,
       pendingVideoId: '',
+      autoplay: 0,
 
       apiLoad: function() {
         // Establish some defaults. Attributes set on the google-youtube element
@@ -238,7 +387,9 @@ The standard set of [YouTube player events](https://developers.google.com/youtub
         var playerVars = {
           playsinline: 1,
           controls: 2,
-          autohide: 1
+          autohide: 1,
+          // This will (intentionally) be overwritten if this.attributes['autoplay'] is set.
+          autoplay: this.autoplay
         };
 
         if (this.chromeless) {
@@ -258,12 +409,12 @@ The standard set of [YouTube player events](https://developers.google.com/youtub
 
         this.player = new YT.Player(this.$.player, {
           videoId: this.videoid,
-          width: this.width,
-          height: this.height,
+          width: '100%',
+          height: '100%',
           playerVars: playerVars,
           events: {
             onReady: function(e) {
-              if (this.pendingVideoId) {
+              if (this.pendingVideoId && this.pendingVideoId != this.videoid) {
                 this.player.cueVideoById(this.pendingVideoId);
                 this.pendingVideoId = '';
               }
@@ -328,6 +479,11 @@ The standard set of [YouTube player events](https://developers.google.com/youtub
         }
 
         return hourPortion + minutes + ':' + seconds;
+      },
+
+      handleThumbnailTap: function() {
+        this.autoplay = 1;
+        this.thumbnail = '';
       }
     });
   </script>

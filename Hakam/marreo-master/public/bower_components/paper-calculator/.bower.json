@@ -2,20 +2,19 @@
   "name": "paper-calculator",
   "private": true,
   "dependencies": {
-    "core-media-query": "Polymer/core-media-query#>=0.3.0 <1.0.0",
-    "font-roboto": "Polymer/font-roboto#>=0.3.0 <1.0.0",
-    "paper-ripple": "Polymer/paper-ripple#>=0.3.0 <1.0.0"
+    "core-media-query": "Polymer/core-media-query#^0.3.0",
+    "font-roboto": "Polymer/font-roboto#^0.3.0",
+    "paper-ripple": "Polymer/paper-ripple#^0.3.0"
   },
   "homepage": "https://github.com/Polymer/paper-calculator",
-  "version": "0.3.5",
-  "_release": "0.3.5",
+  "version": "0.3.6",
+  "_release": "0.3.6",
   "_resolution": {
     "type": "version",
-    "tag": "0.3.5",
-    "commit": "2ea52bbcf0ec818ffbb5859689c7df4b1f273d00"
+    "tag": "0.3.6",
+    "commit": "1cc4207d39a21267ed2d57bab680f0bf0db14a43"
   },
   "_source": "git://github.com/Polymer/paper-calculator.git",
   "_target": "~0.3.5",
-  "_originalSource": "Polymer/paper-calculator",
-  "_direct": true
+  "_originalSource": "Polymer/paper-calculator"
 }

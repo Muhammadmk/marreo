@@ -9,8 +9,6 @@ Template.people.events({
         template.find('mx-pipl').search(email, username, rawName)
     },
     'result mx-pipl': function(e, template) {
-
-
         var records = e.originalEvent.detail.value.records;
         var square = this;
         records = _.filter(records, function(value, key, list) {
@@ -42,16 +40,4 @@ Template.people.events({
 
         // square.setData(square.data);
     }
-});
-
-Template.people.helpers({
-    wide: function() {
-        return this.height < this.width;
-    },
-    bigger: function (height, width) {
-    	return this.height > height && this.width > width;
-    },
-    size: function (height, width) {
-    	return this.height == height && this.width == width;
-    },
 });

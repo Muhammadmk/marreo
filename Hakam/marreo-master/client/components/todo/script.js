@@ -6,29 +6,37 @@ var arrayObjectIndexOf = function(myArray, searchTerm, property) {
     return -1;
 }
 
+//  init wedding date
 weddingDateStr = "2015-11-15 08:00";
 
 Template.todo.helpers({
-    // this function return the variable for mainPage, boolean
+    // variable mainPage: boolean
     mainPage: function() {
         return Template.instance().mainPage.get();
     },
-    // this function return the variable for editSubmitBtn, boolean
+    // variable editSubmitBtn: boolean
     editSubmitBtn: function() {
         return Template.instance().editSubmitBtn.get();
     },
 
-    // this function return the variable for editSubmitBtn, boolean
+    // variable itemTitle: boolean
     itemTitle: function() {
         return Template.instance().itemTitle.get();
     },
+    // variable firstLoad: boolean
+    theDate: function() {
+        return Template.instance().theDate.get();
+    },
 
+
+    // COMMENT OUT FOR NEW VERSION SORTING
     // load all the to do items and sort them according to date
     // toDoList: function() {
     //     if (this.data.value === undefined) return;
 
     //     var toDoList = this.data.value.items;
 
+    //     // this group array keep items in the different arrays
     //     var groups = [{
     //         key: "overdue",
     //         items: []
@@ -72,10 +80,10 @@ Template.todo.helpers({
     //     return groups
     // }
 
+    // NEW VERSION SORTING
     // load all the to do items and sort them according to date
     toDoList: function() {
         if (this.data.value === undefined) return;
-        console.log("enter Here")
         var toDoList = this.data.value.items;
 
         var groups = [
@@ -118,10 +126,8 @@ Template.todo.helpers({
 
         //hardcoding the wedding date
         weddingDay = moment(weddingDateStr);
-        console.log(weddingDay);
 
         var endDate = weddingDay;
-        console.log(endDate);
         var current = moment();
         var currentArray = 0;
 
@@ -145,15 +151,20 @@ Template.todo.helpers({
             currentArray = 8;
         }
 
-        console.log("currentArray: " + currentArray);
-
         //sorting method
         _.reduce(toDoList, function(memo, value) {
             // value.prettyDate = moment(value.date).from(endDate);
             // console.log("*********");
             // console.log(moment(value.date));
             // console.log(endDate.diff(moment(value.date), 'days'));
-            console.log(value.ref);
+            value.prettyDate = value.date.toString().split(' ').splice(0,4).join(' ');
+
+            if (value.prettyDate == "") {
+                console.log("NILL");
+                // trying to get the date to print a empty string
+                value.prettyDate == "lolll";
+            }
+
             if (value.ref < currentArray && currentArray != 0) {
                 memo[currentArray].items.push(value);
             } else {
@@ -163,32 +174,58 @@ Template.todo.helpers({
             return memo;
         }, groups);
 
-return groups
-}
-
+        return groups
+    }
 });
 
 Template.todo.created = function() {
     // mainPage is a boolean to see if it load item list or add item page
-    // mainPage = false -> item list
     this.mainPage = new ReactiveVar(true);
+    // editSubmitBtn is a boolean to see if it load save or add btn
     this.editSubmitBtn = new ReactiveVar(false);
     this.itemTitle = new ReactiveVar("");
+
+    // firstLoad is a boolean to see if it load item list or add item page
+    this.theDate = new ReactiveVar("");
 };
 
+// keep track of the item that use wants to edit
 var editItemId = "";
 
 Template.todo.events({
-    'click a.create': function(e, template) {
-        template.mainPage.set(false);
+    // toggle item panel
+    'click .itemPanel': function(e, template) {
+        // if click on text, it points to sibling, else point to children
+        if ($(event.target).hasClass('itemHeading') || $(event.target).hasClass('list-group-item-text')) { 
+            $(event.target).closest(".toggleDiv").slideToggle();
+        } else {
+            $(event.target).children(".toggleDiv").slideToggle();
+        }
     },
-    'click a.back': function(e, template) {
+
+    // go to add item page
+    'click a.plusItemBtn': function(e, template) {
+        template.mainPage.set(false);
+        animateCard("animate_me");
+    },
+
+    // go back main page
+    'click a.backArrowBtn': function(e, template) {
      template.mainPage.set(true);
      template.editSubmitBtn.set(false);
      template.itemTitle.set("");
- },
+     animateCard("animate_me");
 
- 'click #addToDo': function(e, template) {
+     // reset the form --------------------
+     template.$('[name=title]').val("");
+     template.$('[name=description]').val("");
+     template.$('[name=date]').val("");
+     template.$('[name=category]').val("").trigger('chosen:updated');
+        // -----------------------------------
+    },
+
+   // submit new item
+   'click #submitAdd': function(e, template) {
     e.preventDefault();
 
         //Initialize if there is no data
@@ -200,20 +237,29 @@ Template.todo.events({
             }
         }
 
-        console.log("Adding in Progress..");
-        console.log(template.$('[name=category]').val());
         //hardcoding the wedding date
         weddingDay = moment(weddingDateStr);
-        console.log(weddingDay);
 
         //check date to see whether to store a reference or create a reference
         var dateInput = template.$('[name=date]').val();
+        var day = dateInput.substr(0,2);
+        var month = dateInput.substr(3,2);
+        var year = dateInput.substr(6);
+        var formattedDate = month + "/" + day + "/" + year;
+
         var checkDate = "";
         var ref = 99;
-        if (dateInput || dateInput != "") {
-            checkDate = new Date(dateInput);
 
-            if (weddingDay.diff(moment(value.date), 'months') >= 12) {
+        if (dateInput == "" && template.$('[name=category]').val() == "") {
+            // this is to check if there is no date or category, set to todays date.
+            dateInput = "is not empty";
+            formattedDate = new Date();
+        }
+
+        if (dateInput != "") {
+            checkDate = new Date(formattedDate);
+
+            if (weddingDay.diff(moment(checkDate), 'months') >= 12) {
                 ref = 0;
             } else if (weddingDay.diff(moment(checkDate), 'months') >= 9) {
                 ref = 1;
@@ -227,7 +273,7 @@ Template.todo.events({
                 ref = 5;
             } else if (weddingDay.diff(moment(checkDate), 'days') >= 7) {
                 ref = 6;
-            } else if (weddingDay.diff(moment(vcheckDate), 'days') >= 0) {
+            } else if (weddingDay.diff(moment(checkDate), 'days') >= 0) {
                 ref = 7;
             } else {
                 ref = 8;
@@ -235,8 +281,6 @@ Template.todo.events({
         } else {
             ref = template.$('[name=category]').val();
         }
-        
-
 
         // update the data collection
         Squares.update({_id:mx.current._id}, {
@@ -252,34 +296,46 @@ Template.todo.events({
             }
         });
 
-        // this.data.value.items.push(item);
-        // this.setData(this.data);
-
         template.mainPage.set(true);
-    },
-    'click a.edit': function(event, template) {
-        template.mainPage.set(false);
-        template.editSubmitBtn.set(true);
-        template.itemTitle.set(this.title);
-        editItemId = this._id;
-        console.log(this.date);
-    },
-    'click #editToDo': function(event, template) {
+        animateCard("animate_me");
+        
+        // reset the form --------------------
+        template.$('[name=title]').val("");
+        template.$('[name=description]').val("");
+        template.$('[name=date]').val("");
+        template.$('[name=category]').val("").trigger('chosen:updated');
+        // -----------------------------------
 
-        console.log("Edting in Progress..");
-        console.log(template.$('[name=category]').val());
+    },
+
+    'click #submitEdit': function(event, template) {
         //hardcoding the wedding date
         weddingDay = moment(weddingDateStr);
         console.log(weddingDay);
 
+        //hardcoding the wedding date
+        weddingDay = moment(weddingDateStr);
+
         //check date to see whether to store a reference or create a reference
         var dateInput = template.$('[name=date]').val();
+        var day = dateInput.substr(0,2);
+        var month = dateInput.substr(3,2);
+        var year = dateInput.substr(6);
+        var formattedDate = month + "/" + day + "/" + year;
+        
         var checkDate = "";
         var ref = 99;
-        if (dateInput || dateInput != "") {
-            checkDate = new Date(dateInput);
 
-            if (weddingDay.diff(moment(value.date), 'months') >= 12) {
+        if (dateInput == "" && template.$('[name=category]').val() == "") {
+            // this is to check if there is no date or category, set to todays date.
+            dateInput = "is not empty";
+            formattedDate = new Date();
+        }
+
+        if (dateInput != "") {
+            checkDate = new Date(formattedDate);
+
+            if (weddingDay.diff(moment(checkDate), 'months') >= 12) {
                 ref = 0;
             } else if (weddingDay.diff(moment(checkDate), 'months') >= 9) {
                 ref = 1;
@@ -293,7 +349,7 @@ Template.todo.events({
                 ref = 5;
             } else if (weddingDay.diff(moment(checkDate), 'days') >= 7) {
                 ref = 6;
-            } else if (weddingDay.diff(moment(vcheckDate), 'days') >= 0) {
+            } else if (weddingDay.diff(moment(checkDate), 'days') >= 0) {
                 ref = 7;
             } else {
                 ref = 8;
@@ -316,17 +372,47 @@ Template.todo.events({
         Squares.update({_id: mx.current._id}, modifier);
 
         template.mainPage.set(true);
+        animateCard("animate_me");
         template.editSubmitBtn.set(false);
 
-        // console.log("enter here");
-        // editObject = this;
-        // var date = editObject.date;
-        // editObject.date = moment(date).format('YYYY-MM-DD');
-        // create = true;
-        // createDep.changed();
-        // editObjectDep.changed();
+         // reset the form --------------------
+         template.$('[name=title]').val("");
+         template.$('[name=description]').val("");
+         template.$('[name=date]').val("");
+         template.$('[name=category]').val("").trigger('chosen:updated');
+         
+        // -----------------------------------
     },
-    'click .completedCheck': function(event, template) {
+
+    'click a.editBtn': function(event, template) {
+        template.mainPage.set(false);
+        animateCard("animate_me");
+
+        editItemId = this._id;
+        template.editSubmitBtn.set(true);
+
+        // repopulate the form
+        template.itemTitle.set(this.title);
+        
+        var tempDate = new Date(this.date);
+        if (tempDate != "Invalid Date") {
+            var dd = tempDate.getDate();
+            if (dd.toString().length < 2) {
+                dd = "0" + dd;
+            }
+            var mm = tempDate.getMonth()+1;
+            var yy = tempDate.getFullYear().toString().substr(1);
+        //template.$('[name=date]').val(dd + "/" + mm + "/" + yy);
+        template.theDate.set(dd + "/" + mm + "/" + yy);
+    }
+
+    var selectedCat = (parseInt(this.ref) + 2);
+    console.log(selectedCat);
+    template.$('[name=category]').prop('selectedIndex',selectedCat).trigger('chosen:updated');
+    template.$('[name=description]').val(this.description);
+},
+
+'click .completedCheck': function(event, template) {
         // "this" is a todoItem
         // "that" is a todoSquare
         var that = template.data;
@@ -384,9 +470,33 @@ Squares.update({_id: mx.current._id}, modifier);
         // Squares.update(mx.current._id, this._id, $set: {
         //     data.value.items.$.completed: item.completed
         // });
+
+
+var strikeLength = $(event.target).parent().parent().width() - 60;
+if (item.completed) {
+    $(event.target).parent().siblings('.strikeThrough').animate({width: strikeLength + "px"}, 300, function() {
+    // Animation complete.
+    $(event.target).parent().siblings('.itemHeading').addClass('completedItem');
+    $(event.target).parent().siblings('.strikeThrough').addClass('strikeCompleted');
+});
+} else {
+    // remove the initial strike through from first load.
+    // $(event.target).parent().siblings('.strikeThroughFull').animate({width: "0px"}, 300, function() {
+    //     $(event.target).parent().siblings('.strikeThrough').removeClass('strikeThroughFull');
+    // });
+
+$(event.target).parent().siblings('.strikeThrough').animate({width: "0px"}, 300);
+$(event.target).parent().siblings('.itemHeading').removeClass('completedItem');
+$(event.target).parent().siblings('.strikeThrough').removeClass('strikeCompleted');
+}
+// }
+
+
 },
 
-'click a.delete': function(event, template) {
+'click a.deleteBtn': function(event, template) {
+    // $(event.target).closest(".itemPanel").slideToggle("slow", function() {
+    // Animation complete.
     Squares.update({_id: mx.current._id}, {
         $pull: {
             'data.value.items': {
@@ -394,5 +504,114 @@ Squares.update({_id: mx.current._id}, modifier);
             }
         }
     });
-},
+// });
+}
+
 });
+
+Template.todo.initCalendar = function () {
+    Meteor.defer(function () {
+        rippleEffect($('.btn-effect-ripple'), 'btn-ripple');
+        $('.input-datepicker').datepicker({weekStart: 1}).on('changeDate', function(e){ $(this).datepicker('hide'); });
+    });
+  // return nothing
+};
+
+/* Ripple effect on click functionality */
+var rippleEffect = function(element, cl){
+    // Add required classes to the element
+    element.css({
+        'overflow': 'hidden',
+        'position': 'relative'
+    });
+
+    // On element click
+    element.on('click', function(e){
+        var elem = $(this), ripple, d, x, y;
+
+        // If the ripple element doesn't exist in this element, add it..
+        if(elem.children('.' + cl).length == 0) {
+            elem.prepend('<span class="' + cl + '"></span>');
+        }
+        else { // ..else remove .animate class from ripple element
+            elem.children('.' + cl).removeClass('animate');
+        }
+
+        // Get the ripple element
+        var ripple = elem.children('.' + cl);
+
+        // If the ripple element doesn't have dimensions set them accordingly
+        if(!ripple.height() && !ripple.width()) {
+            d = Math.max(elem.outerWidth(), elem.outerHeight());
+            ripple.css({height: d, width: d});
+        }
+
+        // Get coordinates for our ripple element
+        x = e.pageX - elem.offset().left - ripple.width()/2;
+        y = e.pageY - elem.offset().top - ripple.height()/2;
+
+        // Position the ripple element and add the class .animate to it
+        ripple.css({top: y + 'px', left: x + 'px'}).addClass('animate');
+    });
+};
+
+// Animation =================================================
+Template.todo.rendered = function() {
+    setup();
+    Meteor.defer(function () {
+        var strikeLength = $('.toDoContainer').css("width");
+        // console.log(Template);
+        //get panel size
+        $('.completedCheck').each(function(i, obj) {
+            if ($('.completedCheck').get(i).getAttribute('checked') != null) {
+                // remove the strikethrough of uncompleted task
+                // $($('.completedCheck').get(i)).parent().siblings('.strikeThrough').addClass('strikeThroughFull');
+                $($('.completedCheck').get(i)).parent().siblings('.strikeThrough').width(300);
+                $($('.completedCheck').get(i)).parent().siblings('.strikeThrough').addClass('strikeCompleted');
+                // console.log($($('.completedCheck').get(i)).parent().siblings('.strikeThrough').parent().outerWidth());
+                // remove the grey color of uncompleted task
+                $($('.completedCheck').get(i)).parent().siblings('.itemHeading').addClass('completedItem');
+            }
+        });
+    });
+
+};
+
+var meta;
+var transition;
+var state = {
+    opened: false
+}
+
+function getMeta() {
+    if (!meta) {
+        meta = document.createElement('core-meta');
+        meta.type = 'transition';
+    }
+    return meta;
+}
+
+function setup() {
+    var target = document.getElementById('animate_me');
+
+    transition = getMeta().byId("core-transition-center");
+    transition.setup(target);
+}
+
+function animateCard(name) {
+    var target = document.getElementById(name);
+    var cn = target.classList;
+    var i =0;
+    state.opened = !state.opened;
+
+    if (cn.contains("core-opened")) {
+        transition.go(target, state);
+        cn.add("hiding");
+    } else {
+        cn.remove("hiding");
+        transition.go(target, state);
+        
+    }
+
+}
+// Ends Animation =================================================

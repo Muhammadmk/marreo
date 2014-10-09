@@ -24,7 +24,8 @@ a.text-dark:focus,
 .nav-tabs > li.active > a:focus,
 .nav-users a,
 li.dropdown-header,
-.chosen-container-single .chosen-single {
+.chosen-container-single .chosen-single,
+.select2-container .select2-choice {
     color: #374249;
 }
 
@@ -125,7 +126,10 @@ fieldset legend,
 .chosen-container-single .chosen-single,
 .chosen-container-single .chosen-search input[type="text"],
 .chosen-container-multi .chosen-choices,
-div.tagsinput {
+div.tagsinput,
+.select2-container .select2-choice,
+.select2-search input,
+.select2-container-multi .select2-choices {
     border-color: #dae2e8;
 }
 
@@ -280,7 +284,9 @@ a.list-group-item.active:focus,
 .bootstrap-timepicker-widget table td a:hover,
 div.tagsinput span.tag,
 .slider-selection,
-.progress-bar-primary {
+.progress-bar-primary,
+.select2-results .select2-highlighted,
+.select2-container-multi .select2-choices .select2-search-choice {
     background-color: #45a7b9;
 }
 
@@ -302,7 +308,14 @@ a.list-group-item.active:focus,
 .chosen-container-active .chosen-single,
 .chosen-container-active.chosen-with-drop .chosen-single,
 .chosen-container-active .chosen-choices,
-div.tagsinput span.tag {
+div.tagsinput span.tag,
+.select2-drop-active,
+.select2-container-active .select2-choice,
+.select2-container-active .select2-choices,
+.select2-dropdown-open.select2-drop-above .select2-choice,
+.select2-dropdown-open.select2-drop-above .select2-choices,
+.select2-results .select2-highlighted,
+.select2-container-multi.select2-container-active .select2-choices {
     border-color: #45a7b9;
 }
 
@@ -315,6 +328,10 @@ div.tagsinput span.tag {
 .nav a:focus .caret {
     border-top-color: #45a7b9;
     border-bottom-color: #45a7b9;
+}
+
+.select2-drop.select2-drop-above.select2-drop-active {
+    border-top-color: #45a7b9;
 }
 
 .btn-primary,

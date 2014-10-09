@@ -1,50 +1,27 @@
-Session.setDefault('float', true);
+Template.canvas.background = function() {
+    var canvas = currentCanvas.get();
+    if (!canvas) return;
 
-Template.background.color = function() {
-
-    var list = [{
-        a: '#5C258D',
-        b: '#4389A2'
-    }, {
-        a: "#757F9A",
-        b: "#D7DDE8"
-    }, {
-        a: "#283048",
-        b: "#859398"
-    }, {
-        a: "#ED4264",
-        b: "#FFEDBC"
-    }, {
-        a: "#EC6F66",
-        b: "#F3A183"
-    }, {
-        a: "#a73737",
-        b: "#7a2828"
-    }]
-    var c = Canvases.findOne();
-    var value;
-    if (typeof c.background == "string") {
-        if (c.background.match(mx.regexp.color)) {
-            if (c.background.match(/^([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/)) {
-                value = '#' + c.background;
+    if (typeof canvas.background == "string") {
+        if (canvas.background.match(mx.regexp.color)) {
+            if (canvas.background.match(/^([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/)) {
+                value = '#' + canvas.background;
             } else {
-                value = c.background;
+                value = canvas.background;
             }
-        } else if (c.background.match(/^[-\w]+$/)) {
-            value = c.background;
-        } else if (c.background.match(mx.regexp.url)) {
-            value = 'url(' + c.background + ');'
+        } else if (canvas.background.match(/^[-\w]+$/)) {
+            value = canvas.background;
+        } else if (canvas.background.match(mx.regexp.url)) {
+            value = 'url(' + canvas.background + ')'
         } else {
             return _.sample(list);
         }
-        return {
-            flat: true,
-            a: value
-        }
+        return value;
     } else {
-        return _.sample(list);
+        return "white";
     }
 }
+
 Template.canvas.fab = function(position) {
     var current = Session.get('current');
     if (current) {
@@ -115,23 +92,17 @@ Template.canvas.tiles = function() {
 };
 
 Template.canvas.height = function() {
-    var lastSquare = Background.findOne({}, {
-        sort: {
-            y: -1,
-            x: -2
-        }
-    });
-    return (lastSquare) ? (lastSquare.y + 1) * 100 : 0;
+    var canvas = currentCanvas.get();
+    if (!canvas) return;
+    
+    return canvas.height * 100;
 };
 
 Template.canvas.width = function() {
-    var lastSquare = Background.findOne({}, {
-        sort: {
-            y: -1,
-            x: -2
-        }
-    });
-    return (lastSquare) ? (lastSquare.x + 1) * 100 : 0;
+    var canvas = currentCanvas.get();
+    if (!canvas) return;
+
+    return canvas.width * 100;
 };
 
 Template.canvas.edit = function() {
@@ -208,7 +179,6 @@ Template.canvas.links = function() {
     });
 };
 
-
 Template.canvas.xpos = function() {
     return this.x * 100;
 };
@@ -236,50 +206,61 @@ Template.canvas.squareRenderer = function() {
 }
 
 //Convert Value to Polymer Elements.
-Template.mxData.render = function() {
-    return this.toView(this);
-};
-
+// Template.mxData.render = function() {
+//     return this.toView(this);
+// };
 
 Template.canvas.hiddenRipples = [];
 Template.canvas.events({
+    'click #tile': function(e) {
+        var y = Math.round($(e.currentTarget).position().top / 100);
+        var x = Math.round($(e.currentTarget).position().left / 100);
+
+        var fakeSquare = {
+            x: x,
+            y: y,
+            z: 0,
+            height: 1,
+            width: 1,
+            isTile: true
+        };
+
+        if (!$("#command").is(":visible")) {
+            mx.current = fakeSquare;
+            Action.edit();
+        } else {
+            $('#popup').hide();
+            $('#command').val('');
+            Session.set("results", []);
+        }
+    },
+    'dblclick #tile': function(e) {
+        var y = Math.round($(e.currentTarget).position().top / 100);
+        var x = Math.round($(e.currentTarget).position().left / 100);
+
+        var fakeSquare = {
+            x: x,
+            y: y,
+            z: 0,
+            height: 1,
+            width: 1,
+            isTile: true
+        };
+
+        if (UserSession.get('autoenhance') === true) {
+            fakeSquare.view = "editor";
+            Action.materialize(fakeSquare);
+        }
+    },
+    'mousemove #canvas-container': function(e) {
+        if (e.toElement.id == "tile") return;
+        $('#tile')
+            .css('top', Math.floor(e.offsetY / 100) * 100)
+            .css('left', Math.floor(e.offsetX / 100) * 100);
+    },
     //Core Events
     'click .square': function(e) {
         Session.set('current', this);
-        // Action.edit();
-        // if (e.shiftKey) {
-        //     //Shift Click
-        //     mx.state.endSelect = this;
-        //     Action.multiselect(mx.current, mx.state.endSelect);
-        //     Session.set('current', this);
-        // } else if (e.metaKey || e.ctrlKey) {
-        //     // Control Click
-        //     Squares.update(this._id, {
-        //         $set: {
-        //             selected: true
-        //         }
-        //     });
-        // } else {
-        //     //Default Click
-        //     Action.deselect();
-
-        //     Session.set('current', this);
-        // }
-    },
-    // 'keydown .square': function(e) {
-    //     // trap the return key being pressed
-    //     if (e.keyCode === 13) {
-    //         // insert 2 br tags (if only one br tag is inserted the cursor won't go to the next line)
-    //         document.execCommand('insertHTML', false, '<br>');
-    //         // prevent the default behaviour of return key pressed
-    //         return false;
-    //     }
-    // },
-    'dblclick .tile': function(e) {
-        Session.set('current', this);
-        if (!$("#command").is(":visible")) {
-            Action.edit();
-        }
     },
     'click .square>paper-ripple': function(e) {
         $(e.target).hide();
@@ -297,6 +278,8 @@ Template.canvas.events({
         Action.enhance();
     },
     'drag-start': function(e) {
+        if (currentCanvas.get().lock) return;
+
         var target = e.originalEvent.detail.event.target;
         var resizeBy = {
             x: 0,
@@ -514,117 +497,5 @@ Template.canvas.events({
         } else {
             //swap
         }
-    },
-
-
-
-    //Dev Events
-    // 'dblclick .objectarray > li': function(e) {
-    //     if (e.shiftKey) {
-
-    //         var next, link;
-
-    //         var direction = 'down';
-    //         var offset = 0;
-
-    //         while (true) {
-
-    //             next = Action.findNextSquare(mx.current, direction, offset);
-
-    //             var payload = _.pick(mx.current, 'fn', 'value', 'style', 'url');
-
-    //             payload.link = [];
-
-    //             for (var i = 0; i < mx.current.link.length; i++) {
-    //                 link = Squares.findOne(mx.current.link[i]);
-    //                 nextLink = Action.findNextSquare(link, direction, offset);
-
-    //                 //If cell is blank
-    //                 if (!nextLink.value || typeof nextLink.value !== typeof link.value) {
-    //                     return;
-    //                 }
-
-    //                 payload.link.push(nextLink._id);
-    //             }
-
-    //             Squares.update(next._id, {
-    //                 $set: payload
-    //             }, (function(id) {
-    //                 return function() {
-    //                     Action.refresh(Squares.findOne(id));
-    //                 };
-    //             })(next._id));
-
-    //             offset++;
-    //         }
-
-    //     } else {
-
-    //         var $li = $(e.currentTarget);
-    //         var arrItem = this.value[$li.index()];
-    //         var newItem;
-
-    //         //HARDCODED
-    //         if (arrItem.href) {
-    //             if (arrItem.href.match(/spotify:track:(.+)/)) {
-    //                 var trackID = arrItem.href.match(/spotify:track:(.+)/)[1];
-    //                 url = 'https://play.spotify.com/track/' + trackID;
-
-    //                 Squares.update(this._id, {
-    //                     $unset: {
-    //                         fn: null
-    //                     },
-    //                     $set: {
-    //                         url: url
-    //                     }
-    //                 }, (function(id) {
-    //                     return function() {
-    //                         Action.refresh(Squares.findOne(id));
-    //                     };
-    //                 })(this._id));
-    //             }
-
-    //         } else {
-
-    //             newItem = {
-    //                 '_type': 'fb_user',
-    //                 'id': arrItem.id,
-    //                 'name': arrItem.name
-    //             };
-
-    //             Squares.update(this._id, {
-    //                 $unset: {
-    //                     fn: null
-    //                 },
-    //                 $set: {
-    //                     value: newItem
-    //                 }
-    //             }, (function(id) {
-    //                 return function() {
-    //                     Action.refresh(Squares.findOne(id));
-    //                 };
-    //             })(this._id));
-
-    //         }
-    //     }
-    // },
-
-    // 'mouseover .objectarray > li': function(e) {
-    //     var $li = $(e.currentTarget);
-
-    //     $li.draggable({
-    //         appendTo: 'body',
-    //         containment: $('body'),
-    //         helper: 'clone'
-    //     });
-
-    //     return false;
-    // }
-
-
-    // Squares.find({
-    //     link: mx.current._id
-    // }).forEach(function(tile) {
-    //     Action.refresh(tile);
-    // });
+    }
 });

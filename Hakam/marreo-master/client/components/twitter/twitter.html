@@ -1,0 +1,24 @@
+<template name="twitter">
+    {{#if data.value.username}}
+    <a class="twitter-timeline" href="https://twitter.com/twitterapi" data-widget-id="512214937326723073" data-screen-name="{{data.value.username}}"></a>
+    {{else}}
+    <form class="form-horizontal block nogap" onsubmit="return false;">
+       <div class="form-group">
+        <label class="col-md-3 control-label">User</label>
+        <div class="col-md-9">
+            <div class="input-group">
+                <span class="input-group-addon">@
+                </span>
+                <input type="text" class="screen-name form-control" spellcheck="false" placeholder="graphpaper" value="graphpaper">
+            </div>
+        </div>
+    </div>
+        <div class="form-group form-actions">
+            <div class="col-md-9 col-md-offset-3">
+                <button name="save" class="btn btn-effect-ripple btn-primary" style="overflow: hidden; position: relative;">Save</button>
+                <button type="reset" class="btn btn-effect-ripple btn-danger" style="overflow: hidden; position: relative;">Reset</button>
+            </div>
+        </div>
+    </form>
+    {{/if}}
+</template>

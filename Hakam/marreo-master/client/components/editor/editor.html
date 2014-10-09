@@ -1,3 +1,5 @@
 <template name="editor">
-    <textarea style="overflow:scroll;width:100%;height:100%;font-size:20px;padding:8px;line-height:20px;">{{data.value}}</textarea>
+    <div class="editable {{#if bigger 1 1}}block{{else}}smallblock{{/if}} nogap" id="{{_id}}">
+        {{#if data.value}} {{{data.value}}} {{else}} Just click and start typing! {{/if}}
+    </div>
 </template>

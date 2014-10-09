@@ -18,8 +18,8 @@
         {{/katex}}
     </div>
     {{else}}
-    <div class="block nogap">
-        <textarea class="form-control nogap" value="{{data.value}}" placeholder="enter your LaTeX here e.g. x = a_0 + \frac{1}{a_1 + \frac{1}{a_2 + \frac{1}{a_3 + a_4}}}"></textarea>
-    </div>
+    <textarea class="form-control nogap block" value="{{data.value}}" placeholder="enter your LaTeX here e.g. x = a_0 + \frac{1}{a_1 + \frac{1}{a_2 + \frac{1}{a_3 + a_4}}}"></textarea>
+
+    <div class="btn btn-sm btn-primary save" style="position:absolute; bottom:8px;right:8px;">save</div>
     {{/if}}
 </template>

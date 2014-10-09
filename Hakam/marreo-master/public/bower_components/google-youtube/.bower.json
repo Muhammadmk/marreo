@@ -1,6 +1,6 @@
 {
   "name": "google-youtube",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "authors": [
     "Jeff Posnick <jeffy@google.com>"
   ],
@@ -21,7 +21,7 @@
     "../"
   ],
   "main": "google-youtube.html",
-  "license": "Apache2",
+  "license": "Apache-2.0",
   "homepage": "https://googlewebcomponents.github.io/google-youtube",
   "dependencies": {
     "google-apis": "GoogleWebComponents/google-apis#~0.3.2",
@@ -30,11 +30,11 @@
   "devDependencies": {
     "polymer-test-tools": "Polymer/polymer-test-tools#>=0.4.0 <1.0.0"
   },
-  "_release": "0.0.5",
+  "_release": "0.0.8",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.5",
-    "commit": "955d609b44953af448d77021f5a3fd53dc5f1614"
+    "tag": "v0.0.8",
+    "commit": "d9ea8b0982381e06c7e1018fcb1a29e90ed8a3fc"
   },
   "_source": "git://github.com/GoogleWebComponents/google-youtube.git",
   "_target": "~0.0.4",

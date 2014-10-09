@@ -19,54 +19,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   height: 32px;
 }
 
-#sliderContainer.editable {
+:host([editable]) #sliderContainer {
   float: left;
   width: calc(100% - 72px);
-  margin: 12px 0;
-}
-
-.bar-container {
-  position: absolute;
-  top: 0;
-  left: 16px;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
-.ring > .bar-container {
-  left: 20px;
-  width: calc(100% - 4px);
-  transition: left 0.18s ease, width 0.18s ease;
-}
-
-.ring.expand:not(.pin) > .bar-container {
-  left: 30px;
-  width: calc(100% - 14px);
-}
-
-.ring.expand.dragging > .bar-container {
-  transition: none;
 }
 
 #sliderBar {
   position: absolute;
   top: 15px;
-  left: 0;
+  left: 16px;
   height: 2px;
   width: 100%;
   padding: 8px 0;
   margin: -8px 0;
-}
-
-.ring #sliderBar {
-  left: -4px;
-  width: calc(100% + 4px);
-}
-
-.ring.expand:not(.pin) #sliderBar {
-  left: -14px;
-  width: calc(100% + 14px);
 }
 
 .slider-markers {
@@ -77,6 +42,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   width: calc(100% + 2px);
   box-sizing: border-box;
   pointer-events: none;
+  /* background-image: -webkit-linear-gradient(0deg, #ccc, #ccc 1px, transparent 1px, transparent);
+  background-size: 10%; */
 }
 
 .slider-markers::after, .slider-marker::after {
@@ -112,7 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   transition: none;
 }
 
-.snaps > #sliderKnob.dragging {
+#sliderKnob.snaps.dragging {
   transition: -webkit-transform 0.08s ease;
   transition: transform 0.08s ease;
 }
@@ -128,18 +95,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   /* transition-property: height, width, background-color, border;
   transition-duration: 0.1s;
   transition-timing-function: ease; */
-  transition: height 0.18s ease, width 0.18s ease;
+  transition: height 0.18s ease, width 0.18s ease, background-color 0.28s ease, border 0.18s ease;
 }
 
-.expand:not(.pin) > #sliderKnob > #sliderKnobInner {
+#sliderKnob.expand:not(.pin) > #sliderKnobInner {
   width: 100%;
   height: 100%;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
 
-.ring > #sliderKnob > #sliderKnobInner {
-  background-color: transparent;
+#sliderKnob.ring > #sliderKnobInner {
+  background-color: #fff;
   border: 2px solid #c8c8c8;
 }
 
@@ -147,7 +114,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   background-color: #3f51b5;
 }
 
-.pin > #sliderKnob > #sliderKnobInner::before {
+#sliderKnob.pin > #sliderKnobInner::before {
   content: "";
   position: absolute;
   top: 0;
@@ -165,17 +132,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   transition: transform .2s ease, background-color .18s ease;
 }
 
-.pin.ring > #sliderKnob > #sliderKnobInner::before {
+#sliderKnob.pin.ring > #sliderKnobInner::before {
   background-color: #c8c8c8;
 }
 
-.pin.expand > #sliderKnob > #sliderKnobInner::before {
+#sliderKnob.pin.expand > #sliderKnobInner::before {
   -webkit-transform: rotate(-45deg) scale(1) translate(17px, -17px);
   transform: rotate(-45deg) scale(1) translate(17px, -17px);
 }
 
-.pin > #sliderKnob > #sliderKnobInner::after {
-  content: attr(value);
+#sliderKnob.pin > #sliderKnobInner::after {
+  /* FIXME(ffu): add dummy quotes to workaround https://github.com/Polymer/platform/issues/57 */
+  content: attr(value) "";
   position: absolute;
   top: 0;
   left: 0;
@@ -188,16 +156,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   transform: scale(0) translate(0);
 }
 
-.pin.expand > #sliderKnob > #sliderKnobInner::after {
+#sliderKnob.pin.expand > #sliderKnobInner::after {
   -webkit-transform: scale(1) translate(0, -17px);
   transform: scale(1) translate(0, -17px);
 }
 
-/* editable: paper-input */
 .slider-input {
   width: 40px;
+  height: 32px;
   float: right;
-  overflow: hidden;
 }
 
 .slider-input::shadow input {
@@ -206,20 +173,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 /* disabled state */
-#sliderContainer.disabled {
+:host([disabled]) #sliderContainer {
   pointer-events: none;
 }
 
-.disabled > #sliderKnob > #sliderKnobInner {
-  width: 8px;
-  height: 8px;
+:host([disabled]) {
+  pointer-events: none;
+}
+
+:host([disabled]) #sliderKnob > #sliderKnobInner {
+  width: 12px;
+  height: 12px;
   background-color: #c8c8c8;
+  border: 2px solid #fff;
 }
 
-.disabled.ring > #sliderKnob > #sliderKnobInner {
-  background-color: transparent;
-}
-
-#sliderContainer.disabled #sliderBar::shadow #activeProgress {
+:host([disabled]) #sliderContainer > #sliderBar::shadow #activeProgress {
   background-color: #c8c8c8;
 }

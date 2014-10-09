@@ -1,0 +1,103 @@
+/*begin spinner*/
+@-webkit-keyframes loading {
+    0 {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    25% {
+        -webkit-transform: rotate(160deg);
+        transform: rotate(160deg);
+    }
+    50% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    75% {
+        -webkit-transform: rotate(160deg);
+        transform: rotate(160deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+@keyframes loading {
+    0 {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    25% {
+        -webkit-transform: rotate(160deg);
+        transform: rotate(160deg);
+    }
+    50% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    75% {
+        -webkit-transform: rotate(160deg);
+        transform: rotate(160deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+.loading {
+    margin: 5px auto;
+    border-radius: 50%;
+    background-color: transparent;
+    -webkit-animation: loading 5s infinite linear;
+    animation: loading 5s infinite linear;
+}
+.spin-1 {
+    width: 120px;
+    height: 120px;
+    border: 5px solid #c00353;
+    border-top: 5px solid transparent;
+    border-left: 5px solid transparent;
+}
+.spin-2 {
+    width: 100px;
+    height: 100px;
+    border: 5px solid #05bbc3;
+    border-top: 5px solid transparent;
+    border-left: 5px solid transparent;
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+.spin-3 {
+    width: 80px;
+    height: 80px;
+    border: 5px solid #d2d947;
+    border-top: 5px solid transparent;
+    border-left: 5px solid transparent;
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+.spin-4 {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #f2a342;
+    border-top: 5px solid transparent;
+    border-left: 5px solid transparent;
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+.spin-5 {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #f34d51;
+    border-top: 5px solid transparent;
+    border-left: 5px solid transparent;
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+.spin-6 {
+    width: 20px;
+    height: 20px;
+    border: 5px solid #fff;
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+/*end spinner*/

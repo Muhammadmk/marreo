@@ -654,17 +654,23 @@ a.sidebar-title:focus {
     margin: 0;
     padding: 0;
     text-align: center;
+    opacity: .5;
+    transition: opacity .15s ease-out;
+}
+
+.sidebar-themes:hover {
+    opacity: 1;
 }
 
 .sidebar-themes li {
     float: left;
-    margin: 0 6px 5px 0;
+    margin: 0 10px 10px 0;
 }
 
 .sidebar-themes li a {
     display: block;
-    width: 25px;
-    height: 25px;
+    width: 21px;
+    height: 21px;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, .33);
 }
@@ -929,6 +935,10 @@ a.widget-content:active {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
     -webkit-transform: translateY(0);
     transform: translateY(0);
+}
+
+.widget-content.widget-content-border {
+    border-bottom: 1px solid #eeeeee;
 }
 
 .widget-image {
@@ -1358,6 +1368,62 @@ a[data-toggle="lightbox-image"]:hover img {
 .chatui-form .form-control:focus {
     border-radius: 0;
     border: none;
+}
+
+/* Tasks */
+.task-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.task-list li {
+    position: relative;
+    padding: 10px 40px 10px 15px;
+    margin-bottom: 12px;
+    background-color: #ffffff;
+    border-radius: 3px;
+    -webkit-transition: box-shadow .15s ease-out;
+    transition: box-shadow .15s ease-out;
+}
+
+.task-list li:hover {
+    -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, .05);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .05);
+}
+
+.task-list li.in-1x {
+    margin-left: 20px;
+}
+
+.task-list li.in-2x {
+    margin-left: 40px;
+}
+
+.task-list li > .task-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    opacity: 0;
+    -webkit-transition: opacity .15s ease-out;
+    transition: opacity .15s ease-out;
+}
+
+.task-list li:hover > .task-close {
+    opacity: 1;
+}
+
+.task-list li.task-done {
+    opacity: .5;
+}
+
+.task-list li.task-done > label {
+    text-decoration: line-through;
+}
+
+.task-list li.task-done:hover {
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 /*
@@ -2523,7 +2589,6 @@ li.dropdown-header {
 /* Buttons */
 .btn {
     margin: 1px 0;
-    background-color: #ffffff;
     border-radius: 3px;
 }
 
@@ -2962,6 +3027,11 @@ code {
 }
 
 /* Thumbnail */
+.img-thumbnail-transparent {
+    background-color: rgba(255, 255, 255, .25);
+    border-color: transparent;
+}
+
 .img-thumbnail-avatar {
     width: 69px !important;
     height: 69px !important;

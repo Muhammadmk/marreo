@@ -1,5 +1,6 @@
 {
   "name": "seed-element",
+  "version": "0.1.0",
   "authors": [
     "Anonymous <anonymous@example.com>"
   ],
@@ -9,17 +10,20 @@
   "license": "MIT",
   "homepage": "https://github.com/<USERNAME>/seed-element/",
   "ignore": [
-    "**/.*"
+    "**/.*",
+    "test",
+    "tests",
+    ".bowerrc"
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#>=0.4.0 <1.0.0",
     "polymer-test-tools": "Polymer/polymer-test-tools#>=0.4.0 <1.0.0"
   },
-  "_release": "99c8f6d2f2",
+  "_release": "0.1.0",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "99c8f6d2f2fe34024054e24d8cd65e185f176b0b"
+    "type": "version",
+    "tag": "v0.1.0",
+    "commit": "f1287d971b1c2dcabdc7158c31319bec3ed3a48e"
   },
   "_source": "git://github.com/PolymerLabs/seed-element.git",
   "_target": "*",

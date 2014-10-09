@@ -1,26 +1,51 @@
 Template.embed.rendered = function() {
-    var input = this.findAll('textarea')[0];
-    var that = this;
+    var input = this.$('textarea');
+    var save = this.$('.save');
+    var square = this.data;
 
-    $(input).on('input', function() {
-        console.log(input.value);
-        if (input.value.match(/\A(?:(?:https?):\/\/)?(?:\S+(?::\S*)?@)?(?:(?:([a-z0-9][a-z0-9\-]*)?[a-z0-9]+)(?:\.(?:[a-z0-9\-])*[a-z0-9]+)*(?:\.(?:[a-z]{2,})(:\d{1,5})?))(?:\/[^\s]*)?\z/i)) {
-            //URL
-            that.data.setData({
-                type: 'url',
-                value: input.value
+    var embed = function(value) {
+        if (value.length == 0) return;
+
+        if (mx.regexp.url.test(value)) {
+            var url = value;
+
+            HTTP.get(API.iframely.endpoint, {
+                params: {
+                    url: url,
+                    api_key: API.iframely.token
+                }
+            }, function(error, response) {
+                if (response.data) {
+                    console.log(response.data);
+
+                    square.setData({
+                        type: 'embed',
+                        value: response.data.html
+                    });
+                }
             });
         } else {
-            that.data.setData({
+            square.setData({
                 type: 'embed',
-                value: input.value
+                value: value
             });
         }
-    })
+    }
+
+    if (_(square).valueForKeyPath("data.params.url")) {
+        embed(square.data.params.url);
+    }
+
+    var handler = function() {
+        embed(input.val().trim());
+    }
+
+    $(input).on('blur', handler);
+    $(save).click(handler);
 }
 
 Template.embed.dataIsEmbedable = function() {
-    if (this.data.type == 'embed' || this.data.type == 'url') {
+    if (this.data.type == 'embed') {
         return true;
     }
 }

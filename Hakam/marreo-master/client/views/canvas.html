@@ -1,0 +1,51 @@
+<template name="canvas">
+    <!-- Page content -->
+    <div id="page-content" style="overflow:auto;">
+        <div id="canvas-container" style="height:{{height}}px; width:{{width}}px; background:{{background}};position:relative;">
+
+            <!-- There should only be one tile which acts as a cursor guide and event capture -->
+            {{#unless currentCanvas.lock}}
+            <div id="tile"></div>
+            {{/unless}} {{#each squares}}
+            <div id="{{_id}}" animated class="square" x="{{x}}" y="{{y}}" style="
+            top:{{ypos}}px;
+            left:{{xpos}}px;
+            height:{{heightpx}}px;
+            width:{{widthpx}}px;
+            border: 1px solid #ecf0f1;">
+                {{> UI.dynamic template=squareRenderer}}
+                
+
+                <!-- <div class="nogap cover"></div> -->
+            </div>
+            {{/each}}
+
+            <core-drag-drop></core-drag-drop>
+
+            {{#unless currentCanvas.lock}} {{#unless current.isTile}} {{#with fab "bottom-left"}}
+            <paper-fab class="nano" name="link" icon="link" role="button" tabindex="0" aria-label="plus" style="top:{{y}}px;left:{{x}}px;"></paper-fab>
+            {{/with}} {{#with fab "top-left"}}
+            <paper-fab class="nano" name="enhance" icon="image:auto-fix" role="button" tabindex="0" aria-label="plus" style="top:{{y}}px;left:{{x}}px;"></paper-fab>
+            {{/with}} {{#with fab "top-right"}}
+            <paper-fab class="nano" name="delete" icon="clear" role="button" tabindex="0" aria-label="plus" style="top:{{y}}px;left:{{x}}px;background: #c0392b;"></paper-fab>
+            {{/with}} {{#with fab "bottom-right"}}
+            <paper-fab class="nano" name="resize" icon="unfold-more" role="button" tabindex="0" aria-label="plus" style="top:{{y}}px;left:{{x}}px;"></paper-fab>
+            {{/with}} {{/unless}} {{/unless}}
+            <svg style="z-index:1; pointer-events:none; position:absolute; height:{{height}}px; width:{{width}}px">
+                <defs>
+                    <marker id='arrow' orient="auto" markerWidth='3' markerHeight='6' refX='0.1' refY='2'>
+                        <!-- triangle pointing right (+x) -->
+                        <path d='M0,0 V4 L2,2 Z' fill="#e74c3c" />
+                    </marker>
+                </defs>
+
+                {{#each links}} {{#each lines}}
+                <path style="pointer-events:visible;" class="arrow" source="{{source}}" target="{{target}}" d="M{{x1}},{{y1}} S{{x3}},{{y3}},{{x2}},{{y2}}" fill="none" stroke="#bdc3c7" stroke-width="3" marker-end='url(#arrow)' />{{/each}} {{/each}} {{#with mousearrow}}
+                <path d="M{{x1}},{{y1}} S{{x3}},{{y3}},{{x2}},{{y2}}" fill="none" stroke="#e74c3c" stroke-width="4" marker-end='url(#arrow)' />{{/with}} {{#if resizingSquare}} {{#with current}}
+                <rect id="resizePreview1" x="{{xpos}}" y="{{ypos}}" fill="none" stroke="red" stroke-dasharray="4,8" />
+                <rect id="resizePreview2" x="{{xpos}}" y="{{ypos}}" style="fill:blue;stroke:pink;stroke-width:5;fill-opacity:0.1;stroke-opacity:0.9" />{{/with}} {{/if}} {{#if movingSquare}} {{#with current}}
+                <rect id="movePreview" height="{{heightpx}}" width="{{widthpx}}" style="fill:blue;stroke:pink;stroke-width:5;fill-opacity:0.1;stroke-opacity:0.9" />{{/with}} {{/if}}
+            </svg>
+        </div>
+    </div>
+</template>

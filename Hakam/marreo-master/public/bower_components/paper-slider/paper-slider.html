@@ -69,13 +69,11 @@ To change the slider secondary progress bar color:
 
   <link rel="stylesheet" href="paper-slider.css">
 
-  <div id="sliderContainer" class="{{ {disabled: disabled, pin: pin, snaps: snaps, ring: immediateValue <= min, expand: expand, dragging: dragging, editable: editable} | tokenList }}" on-keydown="{{keydown}}">
+  <div id="sliderContainer" on-keydown="{{keydown}}">
   
-    <div class="bar-container">
-      <paper-progress id="sliderBar" aria-hidden="true" min="{{min}}" max="{{max}}" value="{{immediateValue}}" secondaryProgress="{{secondaryProgress}}"
-          on-down="{{bardown}}" on-up="{{resetKnob}}" 
-          on-trackstart="{{trackStart}}" on-trackx="{{trackx}}" on-trackend="{{trackEnd}}"></paper-progress>
-    </div>
+    <paper-progress id="sliderBar" aria-hidden="true" min="{{min}}" max="{{max}}" value="{{immediateValue}}" secondaryProgress="{{secondaryProgress}}"
+        on-down="{{bardown}}" on-up="{{resetKnob}}" 
+        on-trackstart="{{trackStart}}" on-trackx="{{trackx}}" on-trackend="{{trackEnd}}"></paper-progress>
     
     <template if="{{snaps && !disabled}}">
       <div class="slider-markers" horizontal layout>
@@ -85,7 +83,8 @@ To change the slider secondary progress bar color:
       </div>
     </template>
     
-    <div id="sliderKnob" on-down="{{expandKnob}}" on-up="{{resetKnob}}" 
+    <div id="sliderKnob" class="{{ {pin : pin, snaps : snaps} | tokenList }}"
+        on-down="{{expandKnob}}" on-up="{{resetKnob}}" 
         on-trackstart="{{trackStart}}" on-trackx="{{trackx}}" on-trackend="{{trackEnd}}"
         on-transitionend="{{knobTransitionEnd}}"
         role="slider" aria-valuenow="{{value}}" aria-valuemin="{{min}}" aria-valuemax="{{max}}"
@@ -99,7 +98,7 @@ To change the slider secondary progress bar color:
   </div>
   
   <template if="{{editable}}">
-    <paper-input id="input" class="slider-input" value="{{immediateValue}}" disabled?="{{disabled}}" on-change="{{inputChange}}"></paper-input>
+    <paper-input id="input" class="slider-input" value="{{immediateValue}}" validate="^[-+]?[0-9]*\.?[0-9]+$" disabled?="{{disabled}}" on-change="{{inputChange}}"></paper-input>
   </template>
 
 </template>
@@ -110,16 +109,16 @@ To change the slider secondary progress bar color:
     /**
      * Fired when the slider's value changes.
      *
-     * @event core-change
+     * @event change
      */
 
     /**
-     * Fired when the slider's value changes due to user interaction.
+     * Fired when the slider's value changes due to manual interaction.
      *
      * Changes to the slider's value due to changes in an underlying
      * bound variable will not trigger this event.
      *
-     * @event change
+     * @event manual-change
      */
      
     /**
@@ -195,31 +194,38 @@ To change the slider secondary progress bar color:
     
     valueChanged: function() {
       this.update();
-      this.fire('core-change');
+      this.fire('change');
     },
     
     expandKnob: function() {
-      this.expand = true;
+      this.$.sliderKnob.classList.add('expand');
     },
     
     resetKnob: function() {
       this.expandJob && this.expandJob.stop();
-      this.expand = false;
+      this.$.sliderKnob.classList.remove('expand');
     },
     
     positionKnob: function(ratio) {
-      this.immediateValue = this.calcStep(this.calcKnobPosition(ratio)) || 0;
-      this._ratio = this.snaps ? this.calcRatio(this.immediateValue) : ratio;
+      this._ratio = ratio;
+      this.immediateValue = this.calcStep(this.calcKnobPosition()) || 0;
+      if (this.snaps) {
+        this._ratio = this.calcRatio(this.immediateValue);
+      }
       this.$.sliderKnob.style.left = this._ratio * 100 + '%';
+    },
+    
+    immediateValueChanged: function() {
+      this.$.sliderKnob.classList.toggle('ring', this.immediateValue <= this.min);
     },
     
     inputChange: function() {
       this.value = this.$.input.value;
-      this.fire('change');
+      this.fire('manual-change');
     },
     
-    calcKnobPosition: function(ratio) {
-      return (this.max - this.min) * ratio + this.min;
+    calcKnobPosition: function() {
+      return (this.max - this.min) * this._ratio + this.min;
     },
     
     measureWidth: function() {
@@ -233,15 +239,14 @@ To change the slider secondary progress bar color:
       this._minx = - this._startx;
       this._maxx = this._w - this._startx;
       this.$.sliderKnob.classList.add('dragging');
-      this.dragging = true;
       e.preventTap();
     },
 
     trackx: function(e) {
       var x = Math.min(this._maxx, Math.max(this._minx, e.dx));
       this._x = this._startx + x;
-      this.immediateValue = this.calcStep(
-          this.calcKnobPosition(this._x / this._w)) || 0;
+      this._ratio = this._x / this._w;
+      this.immediateValue = this.calcStep(this.calcKnobPosition()) || 0;
       var s =  this.$.sliderKnob.style;
       s.transform = s.webkitTransform = 'translate3d(' + (this.snaps ? 
           (this.calcRatio(this.immediateValue) * this._w) - this._startx : x) + 'px, 0, 0)';
@@ -251,21 +256,19 @@ To change the slider secondary progress bar color:
       var s =  this.$.sliderKnob.style;
       s.transform = s.webkitTransform = '';
       this.$.sliderKnob.classList.remove('dragging');
-      this.dragging = false;
       this.resetKnob();
       this.value = this.immediateValue;
-      this.fire('change');
+      this.fire('manual-change');
     },
     
     bardown: function(e) {
       this.measureWidth();
       this.$.sliderKnob.classList.add('transiting');
       var rect = this.$.sliderBar.getBoundingClientRect();
-      var ratio = (e.x - rect.left) / this._w;
-      this.positionKnob(ratio);
-      this.value = this.calcStep(this.calcKnobPosition(ratio));
+      this.positionKnob((e.x - rect.left) / this._w);
+      this.value = this.calcStep(this.calcKnobPosition());
       this.expandJob = this.job(this.expandJob, this.expandKnob, 60);
-      this.fire('change');
+      this.fire('manual-change');
     },
     
     knobTransitionEnd: function() {
@@ -294,10 +297,10 @@ To change the slider secondary progress bar color:
       var c = e.keyCode;
       if (c === 37) {
         this.decrement();
-        this.fire('change');
+        this.fire('manual-change');
       } else if (c === 39) {
         this.increment();
-        this.fire('change');
+        this.fire('manual-change');
       }
     }
 

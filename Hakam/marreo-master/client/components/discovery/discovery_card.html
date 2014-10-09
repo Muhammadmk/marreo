@@ -1,0 +1,106 @@
+<template name="discovery">
+
+    <script src="/bower_components/platform/platform.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+
+    
+    <!-- Main Card -->
+    <div class="block full fullHeight">
+        <!-- Header -->
+        <div class="block-title">
+            <!-- file Upload -->
+            <div>
+                <input type="file" id="files" name="file" />
+                <br>
+                <button id="upload">Upload</button>
+            </div>
+            <!-- end file upload -->
+            <div class="block-options pull-right">
+                <form action="#" method="post" class="navbar-form-custom search1">
+                    <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Search.." style="height:30px; margin-top:-2px">
+                </form>
+            </div>
+            <h2>Discovery</h2>
+            <div class="btn-group dropdown">
+                <a href="#" data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu text-left">
+                    <li class="dropdown-header">
+                        <strong>Sort by</strong>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-cog pull-right"></i>
+                            Alphabetical Order
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-heart pull-right"></i>
+                            Likes
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- End Header -->
+
+        <!-- Content -->
+        <div class="toDoContainer overScroll">
+            <!-- loop out the categories -->
+            {{#each discoveryList}} 
+            <div class="catItem text-center">{{catName}}</div>
+            {{/each}}
+
+        </div>
+    </div>
+    <!-- End Main Card -->
+
+
+    <!-- Category card  -->
+    <div class="block full fullHeight card2 hiding" id="animate_me">
+        <div class="block-title">
+            <div class="block-options pull-left">
+                <a href="javascript:void(0)" class="btn btn-effect-ripple btn-default backArrowBtn" data-toggle="tooltip" title="Settings"><i class="fa fa-arrow-left"></i></a>
+            </div>
+            <h2>{{category}}</h2>
+        </div>
+
+        <!-- this part is form for add new to do item -->
+        <div class="toDoContainer">
+            {{#each categoryItems}} 
+            
+            <div class="col-md-6">
+                <a href="#" class="widget">
+                    <div class="widget-image widget-image-sm">
+                        <img src="http://c300221.r21.cf1.rackcdn.com/cute-small-birds-photograph-by-photowork-by-sijanto-cute-small-birds-fine-art-prints-and-posters-for-sale-1368631899_org.jpg" alt="image">
+                    </div>
+                    <div class="widget-content text-dark">
+                        <div class="title1">
+                            <h3>Title</h3>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-xs-6">
+                                <i class="fa fa-heart-o"></i> 9.5k
+                            </div>
+                            <div class="col-xs-6">
+                                <btn class="btn btn-effect-ripple btn-default"><i class="fa fa-star"></i>
+                                </btn>
+                            </div>
+
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            {{/each}}                
+            
+        </div>   
+        <!-- END form -->
+
+    </div>
+
+
+
+</template>

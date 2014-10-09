@@ -1,12 +1,4 @@
-<!--
-    @license
-    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-    Code distributed by Google as part of the polymer project is also
-    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
+<link rel="import" href="../../core-layout/core-layout.html">
 <link rel="import" href="../../core-icons/core-icons.html">
 <link rel="import" href="../../core-icon-button/core-icon-button.html">
 <link rel="import" href="../../core-toolbar/core-toolbar.html">
@@ -22,13 +14,21 @@ Displays formatted source documentation scraped from input urls.
 @element core-doc-page
 -->
 
-<polymer-element name="core-doc-page" attributes="data" relative>
+<polymer-element name="core-doc-page" attributes="data">
+
+<!--
+
+Set url to add documentation from that location to the view.
+
+@attribute url
+@type String
+-->
 
   <template>
 
     <link rel="stylesheet" href="core-doc-page.css">
 
-    <core-header-panel id="panel" mode="waterfall" fit>
+    <core-header-panel id="panel" mode="waterfall">
 
       <!--<core-toolbar>
         <span style="margin: 0 72px;">{{data.name}}</span>
@@ -36,37 +36,38 @@ Displays formatted source documentation scraped from input urls.
 
       <div class="main" on-marked-js-highlight="{{hilight}}">
 
-        <h1>{{data.name}}</h1>
+        <h1 style="font-size: 52px; color: #E91E63;">
+          {{data.name}}
+        </h1>
 
         <p>
           <core-icon icon="home"></core-icon>&nbsp;<a href="{{data | homepageFilter}}">Home Page</a>
         </p>
 
         <template if="{{data.extends}}">
-          <section class="top">
-            <h3>Extends: <a href="#{{data.extends}}">{{data.extends}}</a></h3>
+          <section class="box">
+            <div class="ntitle">Extends</div>
+            <p><a href="#{{data.extends}}">{{data.extends}}</a></p>
           </section>
         </template>
 
         <template if="{{data.description}}">
           <section class="box top">
-            <h3>Summary</h3>
+            <div class="ntitle">Summary</div>
             <marked-element text="{{data.description}}"></marked-element>
           </section>
         </template>
 
         <template if="{{data.attributes.length}}">
           <section class="box attribute-box">
-            <h3>Attributes</h3>
+            <div class="ntitle" style="background-color: #FFAB40; color: white;">Attributes</div>
             <template repeat="{{data.attributes}}">
-              <div class="details" horizontal layout>
-                <div class="details-name" flex>
+              <div class="details">
+                <div class="details-name">
                   <p><code>{{name}}</code></p>
                 </div>
-                <div class="details-info" flex three>
-                  <p layout horizontal center justified>
-                    <code>{{type}}</code><span class="default" hidden?="{{!default}}">default: <code>{{default}}</code></span>
-                  </p>
+                <div class="details-info">
+                  <p><code>{{type}}</code></p>
                   <marked-element text="{{description}}"></marked-element>
                 </div>
               </div>
@@ -76,16 +77,14 @@ Displays formatted source documentation scraped from input urls.
 
         <template if="{{data.properties.length}}">
           <section class="box property-box">
-            <h3>Properties</h3>
+            <div class="ntitle" style="background-color: #4285F4; color: white;">Properties</div>
             <template repeat="{{data.properties}}">
-              <div class="details" horizontal layout>
-                <div class="details-name" flex>
+              <div class="details">
+                <div class="details-name">
                   <p><code>{{name}}</code></p>
                 </div>
-                <div class="details-info" flex three>
-                  <p layout horizontal center justified>
-                    <code>{{type}}</code><span class="default" hidden?="{{!default}}">default: <code>{{default}}</code></span>
-                  </p>
+                <div class="details-info">
+                  <p><code>{{type}}</code></p>
                   <marked-element text="{{description}}"></marked-element>
                 </div>
               </div>
@@ -95,23 +94,14 @@ Displays formatted source documentation scraped from input urls.
 
         <template if="{{data.events.length}}">
           <section class="box event-box">
-            <h3>Events</h3>
+            <div class="ntitle" style="color: white;">Events</div>
             <template repeat="{{data.events}}">
-              <div class="details" horizontal layout>
-                <div class="details-name" flex>
+              <div class="details">
+                <div class="details-name">
                   <p><code>{{name}}</code></p>
                 </div>
-                <div class="details-info" flex three>
+                <div class="details-info">
                   <marked-element text="{{description}}"></marked-element>
-                  <template if="{{params.length}}">
-                    <div class="params">
-                      <p>Event details:</p>
-                      <template repeat="{{params}}">
-                        <p><code>{{name}}</code><span> <code>( {{type}} )</code></span></p>
-                        <p><span>{{description}}</span></p>
-                      </template>
-                    </div>
-                  </template>
                 </div>
               </div>
             </template>
@@ -120,23 +110,14 @@ Displays formatted source documentation scraped from input urls.
 
         <template if="{{data.methods.length}}">
           <section class="box method-box">
-            <h3>Methods</h3>
+            <div class="ntitle" style="color: white;">Methods</div>
             <template repeat="{{data.methods}}">
-              <div class="details" horizontal layout>
-                <div class="details-name" flex>
+              <div class="details">
+                <div class="details-name">
                   <p><code>{{name}}</code></p>
                 </div>
-                <div class="details-info" flex three>
+                <div class="details-info">
                   <marked-element text="{{description}}"></marked-element>
-                  <template if="{{params.length}}">
-                    <div class="params">
-                      <p>Method parameters:</p>
-                      <template repeat="{{params}}">
-                        <p><code>{{name}}</code><span> <code>( {{type}} )</code></span></p>
-                        <p><span>{{description}}</span></p>
-                      </template>
-                    </div>
-                  </template>
                 </div>
               </div>
             </template>

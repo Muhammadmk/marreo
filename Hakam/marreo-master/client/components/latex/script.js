@@ -3,7 +3,7 @@ Template.latex.created = function() {
 };
 
 Template.latex.rendered = function() {
-    $(this.$('.katex')).fitText();
+    // $(this.$('.katex')).fitText();
 };
 
 Template.latex.helpers({
@@ -21,6 +21,17 @@ Template.latex.events({
             $set: {
                 data: {
                     value: event.target.value
+                }
+            }
+        });
+
+        template.edit.set(true);
+    },
+    'click .save': function(event, template) {
+        Squares.update(mx.current._id, {
+            $set: {
+                data: {
+                    value: template.find('textarea').value
                 }
             }
         });

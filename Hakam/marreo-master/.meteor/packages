@@ -5,17 +5,14 @@
 
 insecure
 underscore
-jquery
 http
 accounts-facebook
-service-configuration
 d3
 iron:router
 mizzao:bootstrap-3
 mizzao:bootboxjs
 matteodem:keybindings
 meteorhacks:npm
-mrt:uri-js
 jeeeyul:underscore-keypath
 
 
@@ -27,4 +24,12 @@ meteor-platform
 sashko:katex
 reactive-var
 mrt:x3dom
+tmeasday:publish-counts
+benjaminrh:user-session
+mizzao:user-status
+jquery
+meteorhacks:kadira
+audit-argument-checks
+service-configuration
+accounts-ui
 

@@ -1,0 +1,347 @@
+<template name="layout">
+    <!-- Page Wrapper -->
+    <div id="page-wrapper" class="page-loading">
+        <!-- Preloader -->
+        <!-- Preloader functionality (initialized in js/app.js) - pageLoading() -->
+        <!-- Used only if page preloader enabled from inc/config (PHP version) or the class 'page-loading' is added in body element (HTML version) -->
+        <div class="preloader">
+            <div class="inner">
+                <!-- Animation spinner for all modern browsers -->
+                <div class="preloader-spinner themed-background hidden-lt-ie10"></div>
+
+                <!-- Text for IE9 -->
+                <h3 class="text-primary visible-lt-ie10">
+                    <strong>Loading..</strong>
+                </h3>
+            </div>
+        </div>
+        <!-- END Preloader -->
+
+        <!-- Page Container -->
+        <div id="page-container" class="header-fixed-top sidebar-visible-lg-full">
+            <!-- Alternative Sidebar -->
+            <div id="sidebar-alt" tabindex="-1" aria-hidden="true">
+                <!-- Toggle Alternative Sidebar Button (visible only in static layout) -->
+                <a id="sidebar-alt-close" onclick="App.sidebar('toggle-sidebar-alt');"><i class="fa fa-times"></i></a>
+
+                <!-- Wrapper for scrolling functionality -->
+                <div id="sidebar-scroll-alt">
+                    <!-- Sidebar Content -->
+                    <div class="sidebar-content">
+                        <!-- Settings -->
+                        <div class="sidebar-section">
+                            <h2 class="text-light">Settings</h2>
+                            <form action="index.html" method="post" class="form-horizontal form-control-borderless" onsubmit="return false;">
+                                <div class="form-group">
+                                    <label class="col-xs-7 control-label-fixed">Auto Enhance</label>
+                                    <div class="col-xs-5">
+                                        <label class="switch switch-success">
+                                            <input name="autoenhance" type="checkbox" {{autoenhance}}>
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-7 control-label-fixed">Notifications</label>
+                                    <div class="col-xs-5">
+                                        <label class="switch switch-success">
+                                            <input type="checkbox">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-7 control-label-fixed">Enable API</label>
+                                    <div class="col-xs-5">
+                                        <label class="switch switch-success">
+                                            <input type="checkbox">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group remove-margin">
+                                    <button type="submit" class="btn btn-effect-ripple btn-outline-inverse col-md-4" onclick="App.sidebar('close-sidebar-alt');">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- END Settings -->
+
+                        {{#if currentCanvas}}
+                        <!-- Color Themes -->
+                        <!-- Preview a theme on a page functionality can be found in js/app.js - colorThemePreview() -->
+                        <div class="sidebar-section">
+                            <h2 class="text-light">Canvas Background</h2>
+                            <ul class="sidebar-themes clearfix">
+                                <li>
+                                    <a class="themed-background-default" data-color="#5ccdde" data-theme="default" data-theme-navbar="navbar-default"></a>
+                                </li>
+                                <li>
+                                    <a class="themed-background-social" data-color="#627aad" data-theme="css/themes/social.css" data-theme-navbar="navbar-default"></a>
+                                </li>
+                                <li>
+                                    <a class="themed-background-flat" data-color="45a7b9" data-theme="css/themes/flat.css" data-theme-navbar="navbar-default"></a>
+                                </li>
+                                <li>
+                                    <a class="themed-background-amethyst" data-color="#7c62ad" data-theme="css/themes/amethyst.css" data-theme-navbar="navbar-default"></a>
+                                </li>
+                                <li>
+                                    <a class="themed-background-creme" data-color="#b09573" data-theme="css/themes/creme.css" data-theme-navbar="navbar-default"></a>
+                                </li>
+                                <li>
+                                    <a class="themed-background-passion" data-color="#de4b39" data-theme="css/themes/passion.css" data-theme-navbar="navbar-default"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END Color Themes -->
+                        {{/if}}
+
+                        <!-- Profile -->
+                        <div class="sidebar-section">
+                            <h2 class="text-light">Profile</h2>
+                            <form action="index.html" method="post" class="form-control-borderless" onsubmit="return false;">
+                                <div class="form-group">
+                                    <label for="side-profile-name">Name</label>
+                                    <input type="text" id="side-profile-name" name="side-profile-name" class="form-control" value="{{currentUser.profile.name}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="side-profile-email">Email</label>
+                                    <input type="email" id="side-profile-email" name="side-profile-email" class="form-control" value="john.doe@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="side-profile-password">New Password</label>
+                                    <input type="password" id="side-profile-password" name="side-profile-password" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="side-profile-password-confirm">Confirm New Password</label>
+                                    <input type="password" id="side-profile-password-confirm" name="side-profile-password-confirm" class="form-control">
+                                </div>
+                                <div class="form-group remove-margin">
+                                    <button type="submit" class="btn btn-effect-ripple btn-primary col-md-4" onclick="App.sidebar('close-sidebar-alt');">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- END Profile -->
+
+
+                    </div>
+                    <!-- END Sidebar Content -->
+                </div>
+                <!-- END Wrapper for scrolling functionality -->
+            </div>
+            <!-- END Alternative Sidebar -->
+
+            <!-- Main Sidebar -->
+            <div id="sidebar">
+                <!-- Sidebar Brand -->
+                <div id="sidebar-brand" class="themed-background">
+                    <a class="sidebar-title">
+                        <i class="fa fa-cube"></i> 
+                        <span class="sidebar-nav-mini-hide">Graph
+                            <strong>Paper</strong>
+                        </span>
+                    </a>
+                </div>
+                <!-- END Sidebar Brand -->
+
+                <!-- Wrapper for scrolling functionality -->
+                <div id="sidebar-scroll">
+                    <!-- Sidebar Content -->
+                    <div class="sidebar-content">
+                        <!-- Sidebar Navigation -->
+                        <ul class="sidebar-nav">
+
+                            <li class="{{#unless favouriteCanvases.count}}hidden{{/unless}}">
+                                <a href="#" class="sidebar-nav-menu"><i class="fa fa-star sidebar-nav-icon"></i><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><span class="sidebar-nav-mini-hide"><strong>STARRED</strong></span></a>
+                                <ul>
+                                    {{#each favouriteCanvases}}
+                                    <li>
+                                        <a href="{{pathFor 'canvas'}}">
+                                            #{{title}}
+                                            <i name="deleteCanvas" class="fa fa-close pull-right" style="margin-top:11px;margin-bottom:11px;"></i>
+                                        </a>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="#" class="sidebar-nav-menu"><i class="gi gi-folder_open sidebar-nav-icon"></i><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><span class="sidebar-nav-mini-hide"><strong>WORKSPACES</strong></span></a>
+                                <ul>
+                                    {{#each canvases}}
+                                    <li>
+                                        <a href="{{pathFor 'canvas'}}">
+                                            <strong>#</strong>{{#if title}}{{title}}{{else}}{{_id}}{{/if}}
+                                            <i name="deleteCanvas" class="fa fa-close pull-right" style="margin-top:11px;margin-bottom:11px;"></i>
+                                        </a>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </li>
+                            <li>
+                                <a name="create"><i class="gi gi-plus sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Create a workspace..</span></a>
+                            </li>
+                            <li>
+                                <a href="{{pathFor 'widgets'}}"><i class="fa fa-cogs sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Widgets</span></a>
+                            </li>
+                            <li>
+                                <a><i class="fa fa-question-circle sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Help</span></a>
+                            </li>
+                        </ul>
+                        <!-- END Sidebar Navigation -->
+                    </div>
+                    <!-- END Sidebar Content -->
+                </div>
+                <!-- END Wrapper for scrolling functionality -->
+            </div>
+            <!-- END Main Sidebar -->
+
+            <!-- Main Container -->
+            <div id="main-container">
+                <!-- Header -->
+                <!-- In the PHP version you can set the following options from inc/config file -->
+                <!--
+                        Available header.navbar classes:
+
+                        'navbar-default'            for the default light header
+                        'navbar-inverse'            for an alternative dark header
+                    -->
+                <header class="navbar navbar-default navbar-fixed-top">
+                    <!-- Left Header Navigation -->
+                    <ul class="nav navbar-nav-custom">
+                        <!-- Main Sidebar Toggle Button -->
+                        <li>
+                            <a onclick="App.sidebar('toggle-sidebar');">
+                                <i class="fa fa-ellipsis-v fa-fw animation-fadeInRight" id="sidebar-toggle-mini"></i>
+                                <i class="fa fa-bars fa-fw animation-fadeInRight" id="sidebar-toggle-full"></i>
+                            </a>
+                        </li>
+                        <!-- END Main Sidebar Toggle Button -->
+
+                        {{#with currentCanvas}}
+                        <!-- Header Link -->
+                        <li class="hidden-xs animation-fadeInQuick">
+                            <a>
+                                <h4>
+                                    {{#if star}}
+                                    <i style="font-size:inherit;" name="removeFavourite" class="text-warning fa fa-star"></i>
+                                    {{else}}
+                                    <i style="font-size:inherit;" name="addFavourite" class="text-warning fa fa-star-o"></i>
+                                    {{/if}}
+                                    <strong>
+                                        <!-- current canvas -->
+                                        #{{title}}
+                                    </strong>
+                                </h4>
+                            </a>
+                        </li>
+                        <!-- END Header Link -->
+                        {{/with}}
+                    </ul>
+                    <!-- END Left Header Navigation -->
+                    <!-- Right Header Navigation -->
+                    <ul class="nav navbar-nav-custom pull-right">
+                        <li>
+                            <a>
+                                <i class="fa fa-user"></i>
+                                4
+                            </a>
+                        </li>
+
+                        {{#with currentCanvas}}
+                        <li>
+                            <a name="fullscreen">
+                                <i class="hi hi-fullscreen"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a name="lock">
+                            {{#if lock}}
+                            <i class="fa fa-lock"></i>
+                            {{else}}
+                            <i class="fa fa-unlock"></i>
+                            {{/if}}
+                            </a>
+                        </li>
+                        {{/with}}
+                        <!-- Search Form -->
+                        <!-- <li>
+                            <form action="page_ready_search_results.html" method="post" class="navbar-form-custom" role="search">
+                                <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Search..">
+                            </form>
+                        </li> -->
+                        <!-- END Search Form -->
+
+                        <!-- help button -->
+                        <li>
+                            <a>
+                                <i class="fa fa-question-circle"></i>
+                            </a>
+                        </li>
+
+                        <!-- User Dropdown -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="{{avatar}}" alt="avatar">
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li class="dropdown-header">
+                                    <strong>Max Xu</strong>
+                                </li>
+                                <li>
+                                    <a href="page_app_email.html">
+                                        <i class="fa fa-inbox fa-fw pull-right"></i>
+                                        Inbox
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="page_app_social.html">
+                                        <i class="fa fa-pencil-square fa-fw pull-right"></i>
+                                        Your Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="page_app_media.html">
+                                        <i class="fa fa-picture-o fa-fw pull-right"></i>
+                                        Change your photo
+                                    </a>
+                                </li>
+                                <!-- <li class="divider"></li> -->
+                                <li>
+                                    <a onclick="App.sidebar('toggle-sidebar-alt');">
+                                        <i class="gi gi-settings fa-fw pull-right"></i>
+                                        Settings
+                                    </a>
+                                </li>
+                                <li>
+                                    <a name="logout">
+                                        <i class="fa fa-power-off fa-fw pull-right"></i>
+                                        Log out
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- END User Dropdown -->
+
+                        <!-- Alternative Sidebar Toggle Button -->
+                        <li>
+                            <a onclick="App.sidebar('toggle-sidebar-alt');">
+                                <i class="fa fa-chevron-left"></i>
+                            </a>
+                        </li>
+                        <!-- END Alternative Sidebar Toggle Button -->
+                    </ul>
+                    <!-- END Right Header Navigation -->
+                </header>
+                <!-- END Header -->
+
+
+                {{> yield}}
+
+            </div>
+            <!-- END Main Container -->
+        </div>
+        <!-- END Page Container -->
+    </div>
+    <!-- END Page Wrapper -->
+    {{> popups}}
+</template>

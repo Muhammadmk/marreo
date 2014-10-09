@@ -1,31 +1,47 @@
 Template.create.events({
-    'click #submit-button': function() {
-        var title = document.getElementById('canvas-title').value;
-        var password = document.getElementById('canvas-password').value;
+    'click div[name=submit-button]': function(event, template) {
+        event.preventDefault();
 
-        document.getElementById('submit-button').value = 'creating...';
-        document.getElementById('submit-button').disabled = true;
+        var submitButton = template.$('button[name=submit-button]');
+        var title = template.$('#canvas-title').val();
 
-        console.log(title, password);
+        if (title.length === 0) {
+            template.$('#canvas-title').focus()
+            template.$('#canvas-title').parents('.form-group').addClass('has-error');
+            return;
+        }
+        var height = template.$('.table-pricing.table-featured').data('height');
+        var width = template.$('.table-pricing.table-featured').data('width');
 
-        Meteor.call('create', title, password, function(error) {
+        submitButton.val('creating...');
+        submitButton.addClass('disabled');
+
+        check(title, Match.NonEmptyString);
+        check(height, Match.Integer);
+        check(width, Match.Integer);
+
+        Meteor.call('create', title, width, height, function(error, _id) {
             if (error) {
                 console.error(error);
                 document.getElementById('toast').text = 'Name already taken. Please choose another name.';
                 document.getElementById('toast').show();
-
-                document.getElementById('canvas-title').focus();
-
-                document.getElementById('submit-button').value = 'Create';
-                document.getElementById('submit-button').disabled = false;
             } else {
-                Router.go('/' + title);
-
+                Router.go('/canvas/' + _id);
+                submitButton.val('Create');
+                submitButton.removeClass('disabled');
+                template.$('#canvas-title').parents('.form-group').removeClass('has-error');
+                
+                $('.table-pricing').removeClass('table-featured table-muted');
                 var dialog = document.getElementById('create-canvas');
                 if (dialog.opened) {
                     dialog.toggle();
                 }
             }
         });
+    },
+    'click .table-pricing': function(e) {
+        $('.table-pricing').addClass('table-muted');
+        $('.table-pricing.table-featured').removeClass('table-featured');
+        $(e.currentTarget).addClass('table-featured').removeClass('table-muted');;
     }
 });

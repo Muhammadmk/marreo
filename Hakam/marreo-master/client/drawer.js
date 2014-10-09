@@ -57,26 +57,5 @@ Template.drawer.events = {
             Session.set('current', tile);
             Action.resolveOverlap(tile, Action.checkOverlap(tile));
         };
-    },
-
-    // "result spotify-search": function(e) {
-    //  Session.set("spotify-search-result", e.target.result);
-    // },
-    // "result freebase-search": function(e) {
-    //  Session.set("freebase-search-result", e.originalEvent.detail);
-    // }
+    }
 };
-
-// Template.toolbox.stencils = function() {
-//  return Stencils.find({});
-// };
-
-// Template.toolbox.events = {
-//  'click button.login-button': Action.login,
-//  'click button.logout-button': Action.logout,
-//  'click button.new-canvas-button': Action.newCanvas,
-//  'click button.add-stencil-button': Action.addStencil,
-//  'click button.clear-canvas-button': Action.resetCanvas,
-//  'click .square': Action.copyStencil,
-//  'dblclick .square': Action.deleteStencil
-// };

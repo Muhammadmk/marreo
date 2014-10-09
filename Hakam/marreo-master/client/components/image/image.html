@@ -1,3 +1,14 @@
 <template name="image">
-    
+    {{#if data.value}}
+    <img src="{{data.value}}" alt="" class="img-responsive">{{else}}
+    <div class="block nogap">
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Paste Image URL">
+            <span class="input-group-btn">
+                <button type="button" class="save btn btn-effect-ripple btn-primary" style="overflow: hidden; position: relative;">Save</button>
+            </span>
+        </div>
+    </div>
+
+    {{/if}}
 </template>

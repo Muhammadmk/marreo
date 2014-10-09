@@ -1,72 +1,9 @@
 Action = {
     //System Actions
-    login: function() {
-        Meteor.loginWithFacebook({
-            requestPermissions: [
-                'user_events',
-                'user_friends'
-            ]
-        }, function(err) {
-            if (err) console.log(err);
-            else console.log('Logged in!');
-        });
-    },
     logout: function() {
         Meteor.logout();
     },
-    trySubscribe: function(error) {
-        var password = null;
-
-        if (error) {
-            console.error(error);
-            bootbox.prompt('Password', function(p) {
-                if (p === null) {
-                    bootbox.alert('Unable to view canvas because it is secured by a canvas password.');
-                    return;
-                } else {
-                    password = p;
-
-                    Meteor.subscribe('canvas', Session.get('canvasId'), password, {
-                        onError: Action.trySubscribe,
-                        onReady: Action.subscribeReady
-                    });
-                }
-            });
-        } else {
-
-            Meteor.subscribe('canvas', Session.get('canvasId'), password, {
-                onError: Action.trySubscribe,
-                onReady: Action.subscribeReady
-            });
-        }
-    },
-    subscribeReady: function() {
-        Squares.find({
-            selected: true
-        }).forEach(function(tile) {
-            Squares.update(tile._id, {
-                $set: {
-                    selected: false
-                }
-            });
-        });
-    },
-
     //Canvas Actions
-    test_spawn: function(n) {
-        _.times(n, function(i) {
-            Action.spawn(mx.current, {
-                x: 1,
-                y: i
-            }, {
-                height: 1,
-                width: 3
-            }, {
-                type: "string",
-                value: "OS X 10." + i + 5
-            });
-        });
-    },
     spawn: function(current, offset, size, data, view) {
         current = Action.get(current);
 
@@ -111,325 +48,14 @@ Action = {
             text: tile.text || null,
             intent: tile.intent || null,
             command: tile.command || null,
-            data: tile.data || null,
+            data: tile.data || {},
             view: tile.view || null,
 
-            canvasId: Session.get('canvasId'),
+            canvasId: currentCanvas.get()._id,
             owner: Meteor.userId()
         };
 
         return Squares.insert(newSquare);
-    },
-
-    moveCursor: function(direction, shiftKey) {
-        var newX = mx.current.x,
-            newY = mx.current.y;
-
-        if (!(direction == 'up' || direction == 'down' || direction == 'left' || direction == 'right')) {
-            return;
-        }
-
-        switch (direction) {
-            case 'up':
-                newY--;
-                break;
-            case 'down':
-                newY++;
-                break;
-            case 'left':
-                newX--;
-                break;
-            case 'right':
-                newX++;
-                break;
-        }
-
-        var newSquare = Background.findOne({
-            x: newX,
-            y: newY
-        });
-
-        // var candidate, offset = 1,
-        //     found = false;
-
-        // if (!newSquare) {
-        //     switch (direction) {
-        //         case 'up':
-        //             candidate = Squares.findOne({
-        //                 x: mx.current.x,
-        //                 y: {
-        //                     $lt: mx.current.y
-        //                 }
-        //             }, {
-        //                 sort: {
-        //                     y: -1
-        //                 }
-        //             });
-
-        //             //Edge Cases
-        //             if (!candidate) {
-        //                 candidate = {
-        //                     x: mx.current.x,
-        //                     y: -1
-        //                 };
-        //             }
-
-        //             if (candidate && candidate.height == mx.current.y - candidate.y) {
-        //                 newSquare = candidate;
-        //             } else {
-        //                 while (!found) {
-        //                     c = Squares.findOne({
-        //                         x: {
-        //                             $lt: mx.current.x
-        //                         },
-        //                         y: candidate.y + offset
-        //                     }, {
-        //                         sort: {
-        //                             x: -1
-        //                         }
-        //                     });
-
-        //                     if (c && c.height == mx.current.y - c.y) {
-        //                         found = true;
-        //                         newSquare = c;
-        //                     }
-
-        //                     offset++;
-        //                 }
-        //             }
-
-        //             break;
-        //         case 'down':
-        //             newSquare = Squares.findOne({
-        //                 x: {
-        //                     $lte: mx.current.x
-        //                 },
-        //                 y: mx.current.y + mx.current.height
-        //             }, {
-        //                 sort: {
-        //                     x: -1
-        //                 }
-        //             });
-
-        //             break;
-        //         case 'left':
-        //             candidate = Squares.findOne({
-        //                 x: {
-        //                     $lt: mx.current.x
-        //                 },
-        //                 y: mx.current.y
-        //             }, {
-        //                 sort: {
-        //                     x: -1
-        //                 }
-        //             });
-
-        //             //Edge Cases
-        //             if (!candidate) {
-        //                 candidate = {
-        //                     x: -1,
-        //                     y: mx.current.y
-        //                 };
-        //             }
-        //             if (candidate.width == mx.current.x - candidate.x) {
-        //                 newSquare = candidate;
-        //             } else {
-        //                 while (!found) {
-        //                     c = Squares.findOne({
-        //                         y: {
-        //                             $lt: mx.current.y
-        //                         },
-        //                         x: candidate.x + offset
-        //                     }, {
-        //                         sort: {
-        //                             y: -1
-        //                         }
-        //                     });
-
-        //                     if (c && c.width == mx.current.x - c.x) {
-        //                         found = true;
-        //                         newSquare = c;
-        //                     }
-
-        //                     offset++;
-        //                 }
-        //             }
-        //             break;
-
-        //         case 'right':
-        //             newSquare = Squares.findOne({
-        //                 y: {
-        //                     $lte: mx.current.y
-        //                 },
-        //                 x: mx.current.x + mx.current.width
-        //             }, {
-        //                 sort: {
-        //                     y: -1
-        //                 }
-        //             });
-        //             break;
-        //     }
-        // }
-
-        if (newSquare) {
-            if (shiftKey) {
-                if (mx.state.startSelect === null) {
-                    mx.state.startSelect = mx.current;
-                }
-                Action.multiselect(mx.state.startSelect, newSquare);
-            } else {
-                mx.state.startSelect = null;
-            }
-
-            //Set menu position to lower right
-            Session.set('current', newSquare);
-        } else {
-            console.log("not found");
-        }
-    },
-    startSelect: function() {
-        mx.state.startSelect = mx.current;
-    },
-    deselect: function() {
-        Squares.find({
-            selected: true
-        }).forEach(function(tile) {
-            Squares.update(tile._id, {
-                $set: {
-                    selected: false
-                }
-            });
-        });
-    },
-    multiselect: function(start, end) {
-        var largerX, largerY, smallerX, smallerY;
-        //What is the purpose of multi select?
-
-        if (end.x > start.x) {
-            largerX = end.x;
-            smallerX = start.x;
-        } else {
-            smallerX = end.x;
-            largerX = start.x;
-        }
-
-        if (end.y > start.y) {
-            largerY = end.y;
-            smallerY = start.y;
-        } else {
-            smallerY = end.y;
-            largerY = start.y;
-        }
-
-        Action.deselect();
-
-        Squares.find({
-            x: {
-                $gte: smallerX,
-                $lte: largerX,
-            },
-            y: {
-                $gte: smallerY,
-                $lte: largerY,
-            },
-            selected: false
-        }).forEach(function(tile) {
-            Squares.update(tile._id, {
-                $set: {
-                    selected: true
-                }
-            });
-        });
-    },
-    merge: function() {
-
-        var toMerge = Squares.find({
-            selected: true
-        }, {
-            sort: {
-                x: 1,
-                y: 2
-            }
-        }).fetch();
-
-        var result = _.reduce(toMerge, function(memo, e) {
-            //Memo [maxX, maxY, minX, minY]
-            if (memo[0] === null || e.x > memo[0]) {
-                memo[0] = e.x;
-            }
-            if (memo[1] === null || e.y > memo[1]) {
-                memo[1] = e.y;
-            }
-
-            if (memo[2] === null || e.x < memo[2]) {
-                memo[2] = e.x;
-            }
-            if (memo[3] === null || e.y < memo[3]) {
-                memo[3] = e.y;
-            }
-
-            return memo;
-        }, [null, null, null, null]);
-
-        var width = result[0] - result[2] + 1;
-        var height = result[1] - result[3] + 1;
-        var newSquare;
-
-        _.each(toMerge, function(square) {
-            if (square.x == result[2] && square.y == result[3]) {
-                square.height = height;
-                square.width = width;
-                square.selected = false;
-                newSquare = square;
-
-                Squares.update(square._id, newSquare);
-            } else {
-                Squares.remove(square._id);
-            }
-        });
-
-        Session.set('current', newSquare);
-    },
-    split: function() {
-        var height = mx.current.height;
-        var width = mx.current.width;
-
-        if (height > 1 || width > 1) {
-
-            var x = mx.current.x
-            var y = mx.current.y
-
-            var id = mx.current._id;
-
-            for (yoffset = 0; yoffset < height; yoffset++) {
-                for (xoffset = 0; xoffset < width; xoffset++) {
-
-                    if (xoffset == 0 && yoffset == 0) {
-                        Squares.update(id, {
-                            $set: {
-                                height: 1,
-                                width: 1
-                            }
-                        });
-                    } else {
-                        Squares.insert({
-                            x: x + xoffset,
-                            y: y + yoffset,
-                            height: 1,
-                            width: 1,
-                            link: [],
-                            selected: false,
-                            canvasId: Session.get('canvasId')
-                        });
-                    }
-                }
-            }
-
-            Session.set('current', Squares.findOne({
-                x: x,
-                y: y
-            }));
-        }
     },
     edit: function() {
         if ($('#popup').is(":hidden")) {
@@ -535,7 +161,7 @@ Action = {
         });
     },
     escape: function() {
-        Action.deselect();
+        // Action.deselect();
 
         if (Session.get('edit')) {
             Action.editLinks();
@@ -557,39 +183,7 @@ Action = {
         // document.querySelector('#webservice-refresh').value = webservice ? webservice.refresh : "";
         document.querySelector('#webservice-editor').toggle();
     },
-    editLinks: function() {
-        if (Session.get('edit')) {
-            $('.main-container .square').css('cursor', 'default');
 
-            Squares.find({
-                highlight: true
-            }).forEach(function(tile) {
-                Squares.update(tile._id, {
-                    $set: {
-                        highlight: false
-                    }
-                });
-            });
-
-            Session.set('edit', false);
-        } else {
-            $('.main-container .square').css('cursor', 'cell');
-
-            Squares.find({
-                _id: {
-                    $in: mx.current.link
-                }
-            }).forEach(function(tile) {
-                Squares.update(tile._id, {
-                    $set: {
-                        highlight: true
-                    }
-                });
-            });
-
-            Session.set('edit', true);
-        }
-    },
     editURL: function() {
         // bootbox.prompt({
         //     title: 'What is the URL to call?',
@@ -916,9 +510,9 @@ Action = {
                         }
                     ), function(d) {
                         if (d.example.match(
-                            new RegExp(
-                                '^' + RegExp.quote(key),
-                                "i"))) {
+                                new RegExp(
+                                    '^' + RegExp.quote(key),
+                                    "i"))) {
                             return -1;
                         } else {
                             if (d.example == "=" || d.example == "!") return 100;
@@ -941,32 +535,27 @@ Action = {
         } else {
             key = input;
             var defaultRecommendation = [{
-                example: "=<equation>",
+                example: "=",
                 icon: "https://cdn1.iconfinder.com/data/icons/financial-data/100/Calculator_01-32.png",
                 description: "Evaluate a equation or function using Excel syntax"
             }, {
-                example: "!<action>",
+                example: "!",
                 icon: "https://cdn0.iconfinder.com/data/icons/seo-smart-pack/128/grey_new_seo2-47-32.png",
                 description: "Special actions and settings."
-            }, {
-                example: "people",
-                icon: "https://cdn2.iconfinder.com/data/icons/seo-web-optomization-ultimate-set/512/market_research-32.png",
-                description: "Search for people on the web."
-            }, {
-                example: "todo",
-                icon: "https://cdn2.iconfinder.com/data/icons/business-office-icons/256/To-do_List-32.png",
-                description: "Create a simply todo list to track your tasks."
-            }, {
-                example: "editor",
-                icon: "https://cdn0.iconfinder.com/data/icons/line-file-type-icons/100/file_txt-32.png",
-                description: "A rich text editor to quickly create documents."
-            }, {
-                example: "minecraft",
-                description: "A realtime, multiplayer, minecraft like 3D environment."
-            }, {
-                example: "latex",
-                description: "Quickly math typesetting using LaTeX."
             }];
+
+            defaultRecommendation = defaultRecommendation.concat(
+                _.map(
+                    Widgets,
+                    function(widget) {
+                        return {
+                            example: _.first(widget.names),
+                            icon: widget.icon,
+                            description: widget.description
+                        }
+                    }
+                )
+            );
 
             var results = _.map(
                 _.first(
@@ -979,9 +568,9 @@ Action = {
                         }
                     ), function(d) {
                         if (d.example.match(
-                            new RegExp(
-                                '^' + RegExp.quote(key),
-                                "i"))) {
+                                new RegExp(
+                                    '^' + RegExp.quote(key),
+                                    "i"))) {
                             return -1;
                         } else {
                             return d.example.charCodeAt(0);

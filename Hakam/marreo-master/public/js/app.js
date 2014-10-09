@@ -15,8 +15,6 @@ var App = function() {
 
     /* Initialization UI Code */
     var uiInit = function() {
-        //Unset
-        $('.tooltip').remove();
 
         // Set variables - Cache some often used Jquery objects in variables */
         page            = $('#page-container');
@@ -73,11 +71,29 @@ var App = function() {
         // Initialize Image Lightbox
         $('[data-toggle="lightbox-image"]').magnificPopup({type: 'image', image: {titleSrc: 'title'}});
 
+        // Initialize image gallery lightbox
+        $('[data-toggle="lightbox-gallery"]').magnificPopup({
+            delegate: 'a',
+            type: 'image',
+            gallery: {
+                enabled: true,
+                navigateByImgClick: true,
+                arrowMarkup: '<button type="button" class="mfp-arrow mfp-arrow-%dir%" title="%title%"></button>',
+                tPrev: 'Previous',
+                tNext: 'Next',
+                tCounter: '<span class="mfp-counter">%curr% of %total%</span>'
+            },
+            image: {titleSrc: 'title'}
+        });
+
         // Initialize Editor
         $('.textarea-editor').wysihtml5();
 
         // Initialize Chosen
         $('.select-chosen').chosen({width: "100%"});
+
+        // Initialize Select2
+        $('.select-select2').select2();
 
         // Initialize Slider for Bootstrap
         $('.input-slider').slider();
@@ -483,3 +499,6 @@ var App = function() {
         }
     };
 }();
+
+/* Initialize App when page loads */
+$(function(){ App.init(); });

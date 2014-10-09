@@ -1,0 +1,463 @@
+<template name="dev">
+    {{> background}} {{> canvas}} {{> popups}}
+</template>
+
+<template name="mxData">
+    {{{this.data.value}}}
+</template>
+
+<template name="popups">
+    <div id="popup">
+        <input type="text" id="command" />{{#if results}}
+        <core-menu>
+            {{#each results}}
+            <paper-item iconSrc="{{icon}}" selected="{{#if selected}}true{{/if}}" value="{{example}}">
+                <div style="line-height:normal;">
+                    <strong>{{example}}</strong>
+                    <br/>
+                    <small class="text-muted">{{description}}</small>
+                </div>
+            </paper-item>
+            {{/each}}
+        </core-menu>
+        {{/if}}
+
+        <paper-shadow z="1"></paper-shadow>
+    </div>
+
+    <paper-dialog id="create-canvas" backdrop>
+        {{> create}}
+    </paper-dialog>
+
+    <paper-toast id="toast"></paper-toast>
+
+    <aside id="support">
+        <h2>
+            <span>Need help?</span>
+        </h2>
+        <nav class="links">
+            <a class="chat" href="https://www.hipchat.com/gyHEHtsXZ" target="_blank">Chat with us</a>
+            <a class="collaboration" onclick="TogetherJS(this); return false;">Start collaboration</a>
+            <a class="help Intercom" href="cwtcfmmj@incoming.intercom.io" data-intercom_original_html="Contact the support" style="visibility: visible;">Contact the support</a>
+            <a class="documentation" href="http://docs.devo.ps" target="_blank">Check the documentation</a>
+        </nav>
+    </aside>
+
+    <!-- <div style="position:fixed;right:0;bottom:0;"> -->
+        <button class="btn-primary btn btn-sm" onclick="TogetherJS(this); return false;"></button>
+    <!-- </div> -->
+
+    <div style="position:fixed;right:10px;top:10px;z-index: 9001;">
+        <button class="btn-default btn" name="fullscreen-off"><i class="hi hi-fullscreen"></i>
+        </button>
+    </div>
+
+</template>
+
+<template name="widgets">
+    <div id="page-content">
+        <div class="block full">
+            <div class="row">
+                {{#each widgets}}
+                <div class="col-sm-3">
+                    <a class="widget">
+                        <div class="thumbnail widget-content text-right clearfix" style="height:160px;">
+                            {{#if icon}}
+                            <img src="{{icon}}" alt="avatar" class="img-circle img-thumbnail img-thumbnail-avatar pull-left">{{/if}}
+                            <h2 class="widget-heading h3">
+                                <strong>{{name}}</strong>
+                            </h2>
+                            <span class="text-muted">{{description}}</span>
+                            <br>alias: {{alias}}
+                        </div>
+                    </a>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="login">
+    <!-- Full Background -->
+    <!-- For best results use an image with a resolution of 1280x1280 pixels (prefer a blurred image for smaller file size) -->
+    <img src="img/placeholders/layout/lock_full_bg.jpg" alt="Full Background" class="full-bg full-bg-bottom animation-pulseSlow">
+    <!-- END Full Background -->
+
+    <!-- 
+    <div id="loginbackground">
+    </div> 
+    -->
+
+    <!-- Login Container -->
+    <div id="login-container">
+        {{#if currentUser}}
+        <!-- Lock Header -->
+        <p class="text-center push-top-bottom animation-slideDown">
+            <img src="{{avatar}}" alt="avatar" class="img-circle img-thumbnail img-thumbnail-avatar-2x">
+        </p>
+        <h1 class="text-center text-light push-top-bottom animation-fadeInQuick">
+            <strong>{{currentUser.profile.name}}</strong>
+        </h1>
+        <!-- END Lock Header -->
+
+        <!-- Lock Form -->
+        <form class="form-horizontal push animation-fadeInQuick">
+            <div class="form-group">
+                <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+                    <a href="{{pathFor 'home'}}" type="submit" class="btn btn-effect-ripple btn-block btn-primary btn-lg">Enter
+                    </a>
+                </div>
+            </div>
+        </form>
+        <p class="text-center animation-fadeInQuick">
+            <a onclick="Meteor.logout();">
+                <small>Not {{currentUser.profile.name}}?</small>
+            </a>
+        </p>
+        <!-- END Lock Form -->
+
+        {{else}}
+
+        <!-- Login Header -->
+        <h1 class="h2 text-light text-center push-top-bottom animation-slideDown">
+            <i class="fa fa-cube"></i> 
+            <strong>Welcome to GraphPaper</strong>
+        </h1>
+        <!-- END Login Header -->
+
+        <!-- Login Block -->
+        <div class="block animation-fadeInQuickInv">
+            <!-- Login Title -->
+            <div class="block-title">
+                <!-- <div class="block-options pull-right">
+                    <a data-toggle="modal" data-target="#help" class="btn btn-effect-ripple btn-primary"><i class="fa fa-question-circle"></i></a>
+                    <a href="page_ready_register.html" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="left" title="Create new account"><i class="fa fa-plus"></i></a>
+                </div> -->
+                <h2>Please Login</h2>
+            </div>
+            <!-- END Login Title -->
+            {{> atForm}}
+        </div>
+        <!-- END Login Block -->
+        {{/if}}
+    </div>
+    <!-- END Login Container -->
+</template>
+
+<template name="register">
+    <!-- Login Container -->
+    <div id="login-container">
+        <!-- Register Header -->
+        <h1 class="h2 text-light text-center push-top-bottom animation-slideDown">
+            <i class="fa fa-plus"></i> 
+            <strong>Create Account</strong>
+        </h1>
+        <!-- END Register Header -->
+
+        <!-- Register Form -->
+        <div class="block animation-fadeInQuickInv">
+            <!-- Register Title -->
+            <div class="block-title">
+                <div class="block-options pull-right">
+                    <a href="{{pathFor 'login'}}" class="btn btn-effect-ripple btn-primary" data-toggle="tooltip" data-placement="left" title="Back to login"><i class="fa fa-user"></i></a>
+                </div>
+                <h2>Register</h2>
+            </div>
+            <!-- END Register Title -->
+
+            <!-- Register Form -->
+            <form id="form-register" action="page_ready_register.html" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input type="text" id="register-username" name="register-username" class="form-control" placeholder="Username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input type="text" id="register-email" name="register-email" class="form-control" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input type="password" id="register-password" name="register-password" class="form-control" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input type="password" id="register-password-verify" name="register-password-verify" class="form-control" placeholder="Verify Password">
+                    </div>
+                </div>
+                <div class="form-group form-actions">
+                    <div class="col-xs-6">
+                        <label class="csscheckbox csscheckbox-primary" data-toggle="tooltip" title="Agree to the terms">
+                            <input type="checkbox" id="register-terms" name="register-terms">
+                            <span></span>
+                        </label>
+                        <a href="#modal-terms" data-toggle="modal">Terms</a>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <button type="submit" class="btn btn-effect-ripple btn-success"><i class="fa fa-plus"></i> Create Account</button>
+                    </div>
+                </div>
+            </form>
+            <!-- END Register Form -->
+        </div>
+        <!-- END Register Block -->
+
+        {{> footer}}
+    </div>
+    <!-- END Login Container -->
+
+    <!-- Modal Terms -->
+    <div id="modal-terms" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">
+                        <strong>Terms and Conditions</strong>
+                    </h3>
+                </div>
+                <div class="modal-body">
+                    <h4 class="page-header">1.
+                        <strong>General</strong>
+                    </h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ultrices, justo vel imperdiet gravida, urna ligula hendrerit nibh, ac cursus nibh sapien in purus. Mauris tincidunt tincidunt turpis in porta. Integer fermentum tincidunt auctor.</p>
+                    <h4 class="page-header">2.
+                        <strong>Account</strong>
+                    </h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ultrices, justo vel imperdiet gravida, urna ligula hendrerit nibh, ac cursus nibh sapien in purus. Mauris tincidunt tincidunt turpis in porta. Integer fermentum tincidunt auctor.</p>
+                    <h4 class="page-header">3.
+                        <strong>Service</strong>
+                    </h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ultrices, justo vel imperdiet gravida, urna ligula hendrerit nibh, ac cursus nibh sapien in purus. Mauris tincidunt tincidunt turpis in porta. Integer fermentum tincidunt auctor.</p>
+                    <h4 class="page-header">4.
+                        <strong>Payments</strong>
+                    </h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ultrices, justo vel imperdiet gravida, urna ligula hendrerit nibh, ac cursus nibh sapien in purus. Mauris tincidunt tincidunt turpis in porta. Integer fermentum tincidunt auctor.</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-effect-ripple btn-sm btn-primary" data-dismiss="modal">I've read them!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal Terms -->
+</template>
+
+<template name="loading">
+    <div class="loading spin-1">
+        <div class="loading spin-2">
+            <div class="loading spin-3">
+                <div class="loading spin-4">
+                    <div class="loading spin-5">
+                        <div class="loading spin-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="home">
+    <!-- Page content -->
+    <div id="page-content" class="inner-sidebar-right">
+        <!-- Inner Sidebar -->
+        <div id="page-content-sidebar">
+            <!-- Collapsible People List -->
+            <a class="btn btn-block btn-effect-ripple btn-primary visible-xs" data-toggle="collapse" data-target="#people-nav">People</a>
+            <div id="people-nav" class="collapse navbar-collapse remove-padding">
+                <div class="block-section">
+                    <h4 class="inner-sidebar-header">
+                        <a class="btn btn-effect-ripple btn-xs btn-default pull-right"><i class="fa fa-cog"></i></a>
+                        Online
+                    </h4>
+                    <ul class="nav-users nav-users-online">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="img/placeholders/avatars/avatar.jpg" alt="image" class="nav-users-avatar">
+                                <span class="label label-success nav-users-indicator">5</span>
+                                <span class="nav-users-heading">Olivia Rogers</span>
+                                <span class="text-muted">Graphic Designer</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="img/placeholders/avatars/avatar.jpg" alt="image" class="nav-users-avatar">
+                                <span class="label label-success nav-users-indicator">3</span>
+                                <span class="nav-users-heading">Joe Jones</span>
+                                <span class="text-muted">Web Designer</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="img/placeholders/avatars/avatar.jpg" alt="image" class="nav-users-avatar">
+                                <span class="label label-success nav-users-indicator">2</span>
+                                <span class="nav-users-heading">Nancy Cruz</span>
+                                <span class="text-muted">Writer</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="img/placeholders/avatars/avatar.jpg" alt="image" class="nav-users-avatar">
+                                <span class="nav-users-heading">Ethan Hayes</span>
+                                <span class="text-muted">Web Developer</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="img/placeholders/avatars/avatar.jpg" alt="image" class="nav-users-avatar">
+                                <span class="nav-users-heading">Julie Bennett</span>
+                                <span class="text-muted">Photographer</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block-section">
+                    <h4 class="inner-sidebar-header">
+                        <a class="btn btn-effect-ripple btn-xs btn-default pull-right"><i class="fa fa-cog"></i></a>
+                        Away
+                    </h4>
+                    <ul class="nav-users nav-users-away">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="img/placeholders/avatars/avatar.jpg" alt="image" class="nav-users-avatar">
+                                <span class="nav-users-heading">Harold Green</span>
+                                <span class="text-muted">Product Manager</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="img/placeholders/avatars/avatar.jpg" alt="image" class="nav-users-avatar">
+                                <span class="nav-users-heading">Alan George</span>
+                                <span class="text-muted">Freelancer</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block-section">
+                    <h4 class="inner-sidebar-header">
+                        <a class="btn btn-effect-ripple btn-xs btn-default pull-right"><i class="fa fa-cog"></i></a>
+                        Offline
+                    </h4>
+                    <ul class="nav-users nav-users-offline">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="img/placeholders/avatars/avatar.jpg" alt="image" class="nav-users-avatar">
+                                <span class="nav-users-heading">Nathan Moore</span>
+                                <span class="text-muted">UX Designer</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img src="img/placeholders/avatars/avatar.jpg" alt="image" class="nav-users-avatar">
+                                <span class="nav-users-heading">Jason Gomez</span>
+                                <span class="text-muted">CEO</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END Collapsible People List -->
+        </div>
+        <!-- END Inner Sidebar -->
+    </div>
+
+    <div>
+        <h1>- Work in progress -</h1>
+        <small>GraphPaper 0.2.0</small>
+    </div>
+</template>
+
+<template name="footer">
+    <!-- Footer -->
+    <footer class="text-muted text-center animation-pullUp">
+        <small>
+            <span id="year-copy"></span>&copy; graphpaper.co
+        </small>
+    </footer>
+    <!-- END Footer -->
+</template>
+
+<template name="lock">
+    <!-- Full Background -->
+    <!-- For best results use an image with a resolution of 1280x1280 pixels (prefer a blurred image for smaller file size) -->
+    <img src="img/placeholders/layout/lock_full_bg.jpg" alt="Full Background" class="full-bg full-bg-bottom animation-pulseSlow">
+    <!-- END Full Background -->
+
+    <!-- Login Container -->
+    <div id="login-container">
+        <!-- Lock Header -->
+        <p class="text-center push-top-bottom animation-slideDown">
+            <img src="img/placeholders/avatars/avatar.jpg" alt="avatar" class="img-circle img-thumbnail img-thumbnail-avatar-2x">
+        </p>
+        <h1 class="text-center text-light push-top-bottom animation-fadeInQuick">
+            <strong>Spencer Yang</strong>
+            <br>
+            <small>
+                <em>Entrepreneur</em>
+            </small>
+        </h1>
+        <!-- END Lock Header -->
+
+        <!-- Lock Form -->
+        <form action="index.html" method="post" class="form-horizontal push animation-fadeInQuick">
+            <div class="form-group">
+                <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+                    <div class="input-group input-group-lg">
+                        <input type="password" id="lock-password" name="lock-password" class="form-control form-control-borderless" placeholder="Enter your pass..">
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-effect-ripple btn-block btn-primary"><i class="fa fa-unlock-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <p class="text-center animation-fadeInQuick">
+            <a href="page_ready_login.html">
+                <small>Not Emily Wells?</small>
+            </a>
+        </p>
+        <!-- END Lock Form -->
+    </div>
+    <!-- END Login Container -->
+</template>
+
+
+<template name="drawer">
+    <core-toolbar>
+        <mx-search flex></mx-search>
+    </core-toolbar>
+    <div class="content" fit>
+        {{#with searchResult}}
+        <core-drag-drop></core-drag-drop>
+        <div class="entity" style="cursor:move;">
+            {{#if first images}}
+            <div class="cover-image" style="background-image: url({{first images}});" uri="{{uri}}"></div>
+            {{else}}
+            <div style="height: 60px;"></div>
+            {{/if}}
+
+            <div class="slant-box"></div>
+            <div class="content">
+                <div class="title">
+                    {{title}}
+                </div>
+                <div class="name">
+                    {{name}}
+                </div>
+                <div class="description">
+                    {{#if description}} {{{format description}}} {{/if}} {{#if uri}}
+                    <spotify-previewbutton uri="{{uri}}"></spotify-previewbutton>
+                    {{/if}}
+                </div>
+            </div>
+
+            {{socialMediasUrl}}
+        </div>
+        {{/with}}
+    </div>
+</template>

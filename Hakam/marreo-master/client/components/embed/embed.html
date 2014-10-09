@@ -1,6 +1,10 @@
 <template name="embed">
-    {{#if dataIsEmbedable}} {{{data.value}}} {{else}}
-    <textarea style="width:100%;height;100%;font-size:14px;line-height:14px;color:black;" placeholder="Paste a embed code here"></textarea>
+    {{#if dataIsEmbedable}}
+    <div class="nogap">
+        {{{data.value}}}
+    </div>
+    {{else}}
+    <textarea class="form-control nogap" placeholder="Paste the embed code or url."></textarea>
+    <div class="btn btn-sm btn-primary save" style="position:absolute; bottom:8px;right:8px;">save</div>
     {{/if}}
-
 </template>

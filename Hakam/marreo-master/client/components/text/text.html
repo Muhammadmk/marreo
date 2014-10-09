@@ -1,5 +1,5 @@
 <template name="text">
-    <div class="nogap">
+    <div class="editable {{#if bigger 1 1}}block{{else}}smallblock{{/if}} nogap">
         {{data.value}}
     </div>
 </template>

@@ -258,6 +258,5 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 :host([disabled]) #checkbox {
-  opacity: 0.33;
-  border-color: #5a5a5a;
+  border-color: #eaeaea !important;
 }
